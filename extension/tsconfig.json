@@ -1,0 +1,5 @@
+{
+  // WXT generates .wxt/tsconfig.json (with auto-import + browser API types) during
+  // `wxt prepare` (runs on postinstall). Extend it.
+  "extends": "./.wxt/tsconfig.json"
+}

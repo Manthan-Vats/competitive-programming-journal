@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CP Journal Companion</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital@0;1&display=swap');
+      :root {
+        color-scheme: light;
+        --paper: #efe9d9;
+        --sheet: #f4efe2;
+        --edge: #cabf9f;
+        --ink: #211e18;
+        --ink-soft: #6b6450;
+        --ink-faint: #8a8266;
+        --blood: #b81d24;
+        --blood-deep: #8f141a;
+        --blueprint: #36545f;
+        --green: #4c6b3a;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        width: 300px;
+        font-family: 'Newsreader', Georgia, serif;
+        /* paper + tonal variation (matches the web app's .cpj-tone) */
+        background-color: var(--paper);
+        background-image:
+          radial-gradient(130% 80% at 18% -5%, rgba(255, 253, 245, 0.6), transparent 52%),
+          radial-gradient(120% 95% at 95% 105%, rgba(122, 96, 52, 0.07), transparent 55%);
+        color: var(--ink);
+        padding: 18px 16px 16px;
+        position: relative;
+        box-shadow: inset 0 1px 0 rgba(255, 253, 245, 0.6), inset 0 -20px 36px -24px rgba(92, 70, 36, 0.18);
+      }
+      /* fibre grain over the whole slip (monochrome noise, multiply) */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.5;
+        mix-blend-mode: multiply;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+      body > * { position: relative; z-index: 1; }
+      /* masking tape at the top of the slip */
+      body::before {
+        content: "";
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        transform: translateX(-50%) rotate(-2deg);
+        width: 90px;
+        height: 20px;
+        z-index: 2;
+        background: rgba(224, 210, 170, 0.6);
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16);
+        clip-path: polygon(4% 0, 96% 6%, 100% 94%, 2% 100%);
+      }
+      h1 {
+        font-family: 'JetBrains Mono', ui-monospace, monospace;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--blood);
+        margin: 0 0 2px;
+      }
+      .sub {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        color: var(--ink-faint);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        margin: 0 0 14px;
+      }
+      .status {
+        font-family: 'Newsreader', serif;
+        font-size: 14px;
+        background: var(--sheet);
+        border: 1px solid var(--edge);
+        border-radius: 3px;
+        padding: 10px 12px;
+        margin-bottom: 12px;
+        min-height: 18px;
+        box-shadow:
+          0 1px 1px rgba(26, 18, 10, 0.14),
+          0 4px 10px rgba(20, 14, 8, 0.13),
+          inset 0 1px 0 rgba(255, 253, 245, 0.5);
+      }
+      .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+      .dot.on { background: var(--green); }
+      .dot.off { background: var(--ink-faint); }
+      button {
+        width: 100%;
+        font-family: 'Special Elite', monospace;
+        font-size: 14px;
+        padding: 9px 12px;
+        border-radius: 2px;
+        border: 0;
+        background: var(--blood);
+        color: #fbe9e7;
+        cursor: pointer;
+        margin-top: 8px;
+        box-shadow: 0 2px 0 var(--blood-deep);
+      }
+      button:active { transform: translateY(2px); box-shadow: 0 0 0; }
+      button.ghost {
+        background: transparent;
+        color: var(--ink-soft);
+        border: 1px solid var(--edge);
+        box-shadow: none;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.06em;
+      }
+      button:disabled { opacity: 0.5; cursor: default; }
+      .row { display: flex; gap: 8px; }
+      .row button { margin-top: 8px; }
+      select, textarea {
+        width: 100%;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        background: var(--sheet);
+        color: var(--ink);
+        border: 1px solid var(--edge);
+        border-radius: 3px;
+        padding: 7px 8px;
+        margin-top: 8px;
+      }
+      textarea { min-height: 92px; resize: vertical; line-height: 1.5; }
+      .hint { font-family: 'Newsreader', serif; font-style: italic; font-size: 12px; color: var(--ink-soft); margin-top: 10px; line-height: 1.5; }
+      /* the gloaming - timer panel */
+      .timer {
+        background: var(--sheet);
+        border: 1px solid var(--edge);
+        border-radius: 3px;
+        padding: 10px 12px 12px;
+        margin-bottom: 4px;
+        box-shadow: 0 1px 1px rgba(26,18,10,.14), 0 4px 10px rgba(20,14,8,.12), inset 0 1px 0 rgba(255,253,245,.5);
+      }
+      .timer-head { display: flex; align-items: baseline; justify-content: space-between; }
+      .timer-head .gloaming {
+        font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .14em;
+        text-transform: uppercase; color: var(--blood);
+      }
+      .timer-head .elapsed {
+        font-family: 'JetBrains Mono', monospace; font-size: 22px; color: var(--blood); font-variant-numeric: tabular-nums;
+      }
+      .timer-title {
+        font-family: 'Newsreader', serif; font-size: 12px; color: var(--ink-soft);
+        margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      }
+      .timer-idle { font-family: 'Newsreader', serif; font-size: 12px; color: var(--ink-soft); line-height: 1.45; }
+      .timer-onfile {
+        font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .08em;
+        color: var(--green); margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>◉ LOG TO CP JOURNAL</h1>
+    <p class="sub">the companion</p>
+    <div class="status" id="status">...</div>
+    <div id="actions"></div>
+    <p class="hint" id="hint"></p>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
