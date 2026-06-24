@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { isAIConfigured } from "@/lib/ai";
+import { getUserGeminiKey } from "@/lib/ai/user-key";
 import { generateHint, critiqueSolution, generatePatternCard } from "@/lib/ai/assist";
 import { rateLimit } from "@/lib/rate-limit";
 import { errorResponse } from "@/lib/api-error";
@@ -22,9 +23,11 @@ export async function POST(request: NextRequest) {
   } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  if (!isAIConfigured()) {
+  const gemini = await getUserGeminiKey(user.id);
+  const keys = { gemini: gemini ?? undefined };
+  if (!isAIConfigured(keys)) {
     return NextResponse.json(
-      { error: "AI assists are not configured on this instance.", code: "unconfigured" },
+      { error: "AI assists are not configured. Add your Gemini key in Settings.", code: "unconfigured" },
       { status: 503 }
     );
   }
@@ -67,12 +70,15 @@ export async function POST(request: NextRequest) {
     ];
 
     if (action === "hint") {
-      const { data, model } = await generateHint({
-        title: problem.title as string,
-        platform: problem.platform as string,
-        statement: problem.statement as string | null,
-        tags,
-      });
+      const { data, model } = await generateHint(
+        {
+          title: problem.title as string,
+          platform: problem.platform as string,
+          statement: problem.statement as string | null,
+          tags,
+        },
+        keys
+      );
       return NextResponse.json({ action, result: data, model });
     }
 
@@ -95,7 +101,8 @@ export async function POST(request: NextRequest) {
           platform: problem.platform as string,
           statement: problem.statement as string | null,
         },
-        { language: solution.language, code: solution.code }
+        { language: solution.language, code: solution.code },
+        keys
       );
       return NextResponse.json({ action, result: data, model });
     }
@@ -108,7 +115,8 @@ export async function POST(request: NextRequest) {
         statement: problem.statement as string | null,
         tags,
       },
-      { language: solution.language, code: solution.code }
+      { language: solution.language, code: solution.code },
+      keys
     );
     return NextResponse.json({ action, result: data, model });
   } catch (err) {

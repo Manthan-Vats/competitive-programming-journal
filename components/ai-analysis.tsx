@@ -101,11 +101,9 @@ export function AIAnalysis() {
         <div className="flex items-start gap-2 text-[12px] text-ink-soft font-body leading-relaxed">
           <AlertTriangle className="w-4 h-4 text-blood shrink-0 mt-0.5" />
           <span>
-            AI analysis is <strong>off</strong>. Add a free <code className="font-mono text-blueprint">GEMINI_API_KEY</code>{" "}
-            (from aistudio.google.com) to <code className="font-mono text-blueprint">.env.local</code> to enable
-            automatic algorithm/data-structure tagging of your solutions. Optionally set{" "}
-            <code className="font-mono text-blueprint">GROQ_API_KEY</code> for an automatic fallback. The feature is
-            entirely optional - everything else works without it.
+            AI analysis is <strong>off</strong>. Add your free Gemini key above to enable automatic
+            algorithm/data-structure tagging of your solutions. The feature is entirely optional -
+            everything else works without it.
           </span>
         </div>
       ) : (

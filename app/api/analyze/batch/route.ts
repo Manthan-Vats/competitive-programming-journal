@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { runAnalysis } from "@/lib/analyze";
 import { isAIConfigured, aiChainLabel } from "@/lib/ai";
+import { getUserGeminiKey } from "@/lib/ai/user-key";
 import { rateLimit } from "@/lib/rate-limit";
 import { errorResponse } from "@/lib/api-error";
 
@@ -62,9 +63,12 @@ export async function GET(_request: NextRequest) {
       .eq("ai_status", "done");
     const unanalyzed = await countUnanalyzed(supabase, user.id);
 
+    const gemini = await getUserGeminiKey(user.id);
+    const keys = { gemini: gemini ?? undefined };
+
     return NextResponse.json({
-      ai_configured: isAIConfigured(),
-      model: aiChainLabel(),
+      ai_configured: isAIConfigured(keys),
+      model: aiChainLabel(keys),
       total: total ?? 0,
       analyzed: analyzed ?? 0,
       unanalyzed,
@@ -81,9 +85,11 @@ export async function POST(_request: NextRequest) {
   } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  if (!isAIConfigured()) {
+  const gemini = await getUserGeminiKey(user.id);
+  const keys = { gemini: gemini ?? undefined };
+  if (!isAIConfigured(keys)) {
     return NextResponse.json(
-      { error: "AI analysis is not configured on this instance.", code: "unconfigured" },
+      { error: "AI analysis is not configured. Add your Gemini key in Settings.", code: "unconfigured" },
       { status: 503 }
     );
   }
@@ -109,7 +115,7 @@ export async function POST(_request: NextRequest) {
     let succeeded = 0;
     let failed = 0;
     for (const row of pending ?? []) {
-      const result = await runAnalysis(supabase, row.id as string, user.id);
+      const result = await runAnalysis(supabase, row.id as string, user.id, keys);
       if (result.success) succeeded++;
       else if (result.code === "unconfigured") {
         // Provider dropped out mid-run - stop cleanly rather than hammering.

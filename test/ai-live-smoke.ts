@@ -31,15 +31,17 @@ async function main() {
   const { analyzeCode } = await import("../lib/ai/analyze-code");
   const { generateHint } = await import("../lib/ai/assist");
 
-  if (!isAIConfigured()) {
+  // BYOK: the key is supplied per call. For this offline smoke test we read GEMINI_API_KEY directly.
+  const keys = { gemini: process.env.GEMINI_API_KEY };
+
+  if (!isAIConfigured(keys)) {
     console.log(
-      "AI is not configured. Add a real GEMINI_API_KEY (aistudio.google.com) to .env.local, then re-run.\n" +
-        "Optionally add GROQ_API_KEY (console.groq.com) for an automatic fallback."
+      "AI is not configured. Add a real GEMINI_API_KEY (aistudio.google.com) to .env.local, then re-run."
     );
     return;
   }
 
-  console.log("Provider chain:", aiChainLabel());
+  console.log("Provider chain:", aiChainLabel(keys));
 
   console.log("\n[1/2] analyzeCode (structured) ...");
   const analysis = await analyzeCode(
@@ -48,18 +50,22 @@ async function main() {
       language: "python",
       code:
         "def twoSum(nums, target):\n    seen={}\n    for i,x in enumerate(nums):\n        if target-x in seen:\n            return [seen[target-x], i]\n        seen[x]=i",
-    }
+    },
+    keys
   );
   console.log("  model:", analysis.model, "(via", analysis.provider + ")");
   console.log("  result:", JSON.stringify(analysis.data));
 
   console.log("\n[2/2] generateHint (structured) ...");
-  const hint = await generateHint({
-    title: "Two Sum",
-    platform: "leetcode",
-    statement: "Return indices of the two numbers that add up to target.",
-    tags: ["array", "hash table"],
-  });
+  const hint = await generateHint(
+    {
+      title: "Two Sum",
+      platform: "leetcode",
+      statement: "Return indices of the two numbers that add up to target.",
+      tags: ["array", "hash table"],
+    },
+    keys
+  );
   console.log("  hints:", JSON.stringify(hint.data.hints));
 
   console.log("\nLIVE SMOKE OK");

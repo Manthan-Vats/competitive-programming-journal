@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { SyncHistory } from "@/components/sync-history";
 import { VerifyHandles } from "@/components/verify-handles";
 import { ShareCard } from "@/components/share-card";
+import { AIKey } from "@/components/ai-key";
 import { AIAnalysis } from "@/components/ai-analysis";
 import { PaperSheet } from "@/components/paper/paper-sheet";
 import { StampButton } from "@/components/paper/stamp";
@@ -39,6 +40,7 @@ export default function SettingsPage() {
   const [form, setForm] = useState<Profile>(EMPTY);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [aiConfigured, setAiConfigured] = useState(false);
   const { enabled: soundOn, toggle: toggleSound } = useSfx();
 
   useEffect(() => {
@@ -205,7 +207,11 @@ export default function SettingsPage() {
 
       {/* ⑤ AI LIBRARIAN */}
       <Section cap="⑤ THE AI LIBRARIAN · analyze the shelf">
-        <AIAnalysis />
+        <div className="space-y-6">
+          <AIKey onChange={setAiConfigured} />
+          {/* Remount on key add/remove so the batch panel re-reads its on/off status. */}
+          <AIAnalysis key={aiConfigured ? "ai-on" : "ai-off"} />
+        </div>
       </Section>
 
       {/* ⑥ PREFERENCES */}

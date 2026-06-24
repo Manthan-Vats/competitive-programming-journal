@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { generateStructured } from "./index";
+import { generateStructured, type AIKeys } from "./index";
 import {
   CANONICAL_PATTERNS,
   tagsToPatterns,
@@ -30,9 +30,11 @@ export interface NormalizeOptions {
   useAI?: boolean;
 }
 
-// Returns canonical patterns for a set of raw tags. Static-first; AI only as a fallback.
+// Returns canonical patterns for a set of raw tags. Static-first; AI only as a fallback (and only
+// when a per-user key is supplied - without one the AI step is simply skipped).
 export async function aiNormalizePatterns(
   tags: readonly unknown[],
+  keys: AIKeys = {},
   opts: NormalizeOptions = {}
 ): Promise<CanonicalPattern[]> {
   const cleaned = (tags ?? [])
@@ -42,7 +44,7 @@ export async function aiNormalizePatterns(
   // 1) Deterministic keyword map - instant, free, the common path.
   const staticResult = tagsToPatterns(cleaned);
   if (staticResult.length > 0 || cleaned.length === 0) return staticResult;
-  if (opts.useAI === false) return staticResult;
+  if (opts.useAI === false || !keys.gemini) return staticResult;
 
   // 2) Static map found nothing for non-empty tags -> ask the model (enum-constrained).
   try {
@@ -55,6 +57,7 @@ export async function aiNormalizePatterns(
         temperature: 0,
         maxOutputTokens: 200,
       },
+      keys,
       15_000
     );
     // Keep canonical order + dedupe.

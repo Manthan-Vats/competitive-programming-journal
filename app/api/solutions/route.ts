@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse, after } from "next/server";
 import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { runAnalysis } from "@/lib/analyze";
+import { getUserGeminiKey } from "@/lib/ai/user-key";
 import { isLanguage, MAX_CODE_LENGTH } from "@/lib/difficulty";
 import { errorResponse } from "@/lib/api-error";
 
@@ -84,7 +85,8 @@ export async function POST(request: NextRequest) {
     const sid = solution.id;
     const uid = user.id;
     after(async () => {
-      await runAnalysis(createAdminClient(), sid, uid);
+      const gemini = await getUserGeminiKey(uid);
+      await runAnalysis(createAdminClient(), sid, uid, { gemini: gemini ?? undefined });
     });
 
     return NextResponse.json(solution, { status: 201 });

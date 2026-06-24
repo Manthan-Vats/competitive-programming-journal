@@ -78,7 +78,8 @@ security boundary is Postgres Row Level Security**. The model is per-user multi-
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | yes | Public anon key (protected by RLS). Safe to expose. |
 | `SUPABASE_SERVICE_ROLE_KEY` | yes | **Server-only. Bypasses RLS. Never expose.** |
 | `OWNER_USER_ID` | yes | The **operator's** Supabase auth user id. Gates the invite surface. Fails closed if unset. |
-| `GEMINI_API_KEY` | no | If unset/invalid, AI analysis is skipped gracefully. |
+| `AI_KEY_ENC_SECRET` | yes (prod) | Master key (32 bytes, base64 - `openssl rand -base64 32`) that encrypts each user's stored Gemini key at rest. Held only here, never in the DB. Rotating it invalidates all stored user keys. |
+| `GEMINI_API_KEY` | no (dev only) | Ignored in production - AI is **BYOK** (each user adds their own key in Settings). Used only as a local-dev fallback when `NODE_ENV != production`. |
 | `NEXT_PUBLIC_APP_URL` | yes | Base URL used by internal API redirects. |
 
 > If a key is ever committed or surfaced, **rotate it** in the Supabase dashboard
@@ -87,10 +88,11 @@ security boundary is Postgres Row Level Security**. The model is per-user multi-
 ## Deploy
 
 Deploy to any Next.js host (e.g. Vercel). Set all the env vars above in the host's project
-settings - do **not** ship `.env.local`. Run both migrations against your production Supabase
-project, confirm public sign-ups are disabled and the invite redirect points at `/auth/confirm`,
-and verify that a logged-out visitor sees only published problems while an invited user can
-reach their own `/admin`.
+settings - do **not** ship `.env.local`. Run the migrations in `supabase/migrations/` against your
+production Supabase project (including `016_user_ai_keys.sql`), set `AI_KEY_ENC_SECRET`, confirm
+public sign-ups are disabled and the invite redirect points at `/auth/confirm`, and verify that a
+logged-out visitor sees only published problems while an invited user can reach their own `/admin`.
+Each user enables AI by pasting their own free Gemini key in Settings (BYOK).
 
 ## Project layout
 

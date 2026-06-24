@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { generateStructured, type AIRun } from "./index";
+import { generateStructured, type AIRun, type AIKeys } from "./index";
 
 // Code-classification analysis (the existing AI tagging feature, now provider-agnostic). The model
 // reads ONLY the submitted solution code and names the algorithmic techniques / data structures /
@@ -59,7 +59,8 @@ After classifying, also assess RELEVANCE - does this code plausibly attempt the 
 // if AI is disabled and AIProviderError if every provider failed.
 export async function analyzeCode(
   problem: { title: string; platform: string; source_tags?: string[] },
-  solution: { language: string; code: string }
+  solution: { language: string; code: string },
+  keys: AIKeys
 ): Promise<AIRun<CPAnalysisType>> {
   const prompt = `
 Problem: ${problem.title}
@@ -74,10 +75,14 @@ ${solution.code}
 Analyze this solution.
 `.trim();
 
-  return generateStructured(CPAnalysisSchema, {
-    schemaName: "cp_analysis",
-    systemInstruction: SYSTEM_INSTRUCTION,
-    prompt,
-    temperature: 0,
-  });
+  return generateStructured(
+    CPAnalysisSchema,
+    {
+      schemaName: "cp_analysis",
+      systemInstruction: SYSTEM_INSTRUCTION,
+      prompt,
+      temperature: 0,
+    },
+    keys
+  );
 }

@@ -1,5 +1,5 @@
 import { analyzeCode } from "@/lib/ai/analyze-code";
-import { AINotConfiguredError } from "@/lib/ai";
+import { AINotConfiguredError, type AIKeys } from "@/lib/ai";
 import { aiNormalizePatterns } from "@/lib/ai/normalize-patterns";
 import { createClient } from "@/lib/supabase/server";
 
@@ -32,7 +32,8 @@ export interface RunAnalysisResult {
 export async function runAnalysis(
   supabase: DbClient,
   solutionId: string,
-  userId: string
+  userId: string,
+  keys: AIKeys
 ): Promise<RunAnalysisResult> {
   try {
     const { data: solution, error: fetchErr } = await supabase
@@ -48,6 +49,17 @@ export async function runAnalysis(
     // so a future RLS change can't silently let one user analyze another's solution.
     if (solution.user_id !== userId) {
       return { success: false, error: "Forbidden", code: "forbidden" };
+    }
+
+    // No key for this user -> AI is off. Reset ai_status to "none" so a solution created with a
+    // "pending" status (the create/update paths) doesn't get stuck, and report unconfigured.
+    if (!keys.gemini) {
+      try {
+        await supabase.from("solutions").update({ ai_status: "none" }).eq("id", solutionId);
+      } catch {
+        // best-effort
+      }
+      return { success: false, error: "AI is not configured", code: "unconfigured" };
     }
 
     const problem = solution.problems;
@@ -66,7 +78,8 @@ export async function runAnalysis(
       {
         language: solution.language,
         code: solution.code,
-      }
+      },
+      keys
     );
 
     // Normalize the AI's rich tags onto the canonical pattern set (P4 D5). This is the AI-augmented
@@ -74,12 +87,15 @@ export async function runAnalysis(
     // gives far better coverage than judge tags alone. Static-first, so it's instant unless a tag
     // is unseen - and we're already in the background analysis path, so any AI fallback is free of
     // user-facing latency. Stored alongside the raw response (no schema change needed).
-    const patterns = await aiNormalizePatterns([
-      ...(analysisResult.algorithms || []),
-      ...(analysisResult.data_structures || []),
-      ...(analysisResult.techniques || []),
-      ...(analysisResult.math_concepts || []),
-    ]);
+    const patterns = await aiNormalizePatterns(
+      [
+        ...(analysisResult.algorithms || []),
+        ...(analysisResult.data_structures || []),
+        ...(analysisResult.techniques || []),
+        ...(analysisResult.math_concepts || []),
+      ],
+      keys
+    );
 
     // Replace any prior analysis for this solution to prevent duplicates.
     await supabase.from("ai_analyses").delete().eq("solution_id", solutionId);

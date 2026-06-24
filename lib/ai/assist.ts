@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { generateStructured, type AIRun } from "./index";
+import { generateStructured, type AIRun, type AIKeys } from "./index";
 import { CANONICAL_PATTERNS } from "@/lib/patterns";
 
 // AI revision assists (P4 / P6 #2). Three optional helpers that make spaced-repetition review more
@@ -26,12 +26,15 @@ const HintSchema = z.object({
 });
 export type HintResult = z.infer<typeof HintSchema>;
 
-export async function generateHint(problem: {
-  title: string;
-  platform: string;
-  statement?: string | null;
-  tags?: string[];
-}): Promise<AIRun<HintResult>> {
+export async function generateHint(
+  problem: {
+    title: string;
+    platform: string;
+    statement?: string | null;
+    tags?: string[];
+  },
+  keys: AIKeys
+): Promise<AIRun<HintResult>> {
   const system = `
 You are a competitive-programming coach helping someone RECALL how to solve a problem during spaced-
 repetition review. Give graded hints that guide thinking WITHOUT spoiling the solution.
@@ -49,13 +52,17 @@ ${problem.statement ? `\nStatement:\n${problem.statement}` : "(no statement capt
 
 Give progressive hints.`.trim();
 
-  return generateStructured(HintSchema, {
-    schemaName: "revision_hint",
-    systemInstruction: system,
-    prompt,
-    temperature: 0.4,
-    maxOutputTokens: 600,
-  });
+  return generateStructured(
+    HintSchema,
+    {
+      schemaName: "revision_hint",
+      systemInstruction: system,
+      prompt,
+      temperature: 0.4,
+      maxOutputTokens: 600,
+    },
+    keys
+  );
 }
 
 //  Critique my old solution
@@ -72,7 +79,8 @@ export type CritiqueResult = z.infer<typeof CritiqueSchema>;
 
 export async function critiqueSolution(
   problem: { title: string; platform: string; statement?: string | null },
-  solution: { language: string; code: string }
+  solution: { language: string; code: string },
+  keys: AIKeys
 ): Promise<AIRun<CritiqueResult>> {
   const system = `
 You are a senior competitive programmer reviewing someone's OWN past solution so they learn from it.
@@ -93,13 +101,17 @@ ${solution.code}
 
 Critique this solution.`.trim();
 
-  return generateStructured(CritiqueSchema, {
-    schemaName: "solution_critique",
-    systemInstruction: system,
-    prompt,
-    temperature: 0.2,
-    maxOutputTokens: 900,
-  });
+  return generateStructured(
+    CritiqueSchema,
+    {
+      schemaName: "solution_critique",
+      systemInstruction: system,
+      prompt,
+      temperature: 0.2,
+      maxOutputTokens: 900,
+    },
+    keys
+  );
 }
 
 //  Auto-generate a pattern card
@@ -117,7 +129,8 @@ export type PatternCardResult = z.infer<typeof PatternCardSchema>;
 
 export async function generatePatternCard(
   problem: { title: string; platform: string; statement?: string | null; tags?: string[] },
-  solution: { language: string; code: string }
+  solution: { language: string; code: string },
+  keys: AIKeys
 ): Promise<AIRun<PatternCardResult>> {
   const system = `
 You turn a solved problem + the user's code into a concise, reusable PATTERN CARD for revision.
@@ -138,11 +151,15 @@ ${solution.code}
 
 Generate a pattern card.`.trim();
 
-  return generateStructured(PatternCardSchema, {
-    schemaName: "pattern_card",
-    systemInstruction: system,
-    prompt,
-    temperature: 0.3,
-    maxOutputTokens: 700,
-  });
+  return generateStructured(
+    PatternCardSchema,
+    {
+      schemaName: "pattern_card",
+      systemInstruction: system,
+      prompt,
+      temperature: 0.3,
+      maxOutputTokens: 700,
+    },
+    keys
+  );
 }

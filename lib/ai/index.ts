@@ -6,42 +6,44 @@ import { createGroqProvider } from "./groq";
 export { AIProviderError, AINotConfiguredError } from "./types";
 export type { AIProvider } from "./types";
 
-// The AI layer is OPTIONAL and SWAPPABLE. Providers are assembled from whatever keys are present:
-//   - GEMINI_API_KEY  -> Gemini  (primary by default; best fit for this app - see docs)
-//   - GROQ_API_KEY    -> Groq    (optional fallback: a 2nd free quota + fastest inference)
-// AI_PRIMARY ("gemini" | "groq") flips the order. If a key is absent, that provider is simply not
-// in the chain. If NO keys are present, isAIConfigured() is false and callers degrade cleanly with
-// no errors. Per-provider model overrides: GEMINI_MODEL, GROQ_MODEL.
+// The AI layer is OPTIONAL, SWAPPABLE, and PER-USER (BYOK). Providers are assembled from the keys
+// passed in by the caller - NOT from a shared env key - so each user's analyses spend their OWN
+// Gemini quota:
+//   - keys.gemini -> Gemini (the per-user key resolved by lib/ai/user-key.ts)
+// If no key is passed, the chain is empty: isAIConfigured(keys) is false and callers degrade
+// cleanly with no errors. Model override: GEMINI_MODEL (an instance-wide default, not a secret).
+// (Groq remains plumbed for resilience but is intentionally unused on the BYOK path - the product
+// decision is Gemini-only BYOK.)
 
 const DEFAULT_TIMEOUT_MS = 30_000;
 
-function buildProviders(): AIProvider[] {
-  const providers: Record<string, AIProvider> = {};
-  if (process.env.GEMINI_API_KEY) {
-    providers.gemini = createGeminiProvider(process.env.GEMINI_API_KEY, process.env.GEMINI_MODEL);
+// The set of provider keys for one request. Keys are supplied per call (serverless-safe: no
+// request-scoped global state that could bleed across users).
+export interface AIKeys {
+  gemini?: string;
+}
+
+function buildProviders(keys: AIKeys): AIProvider[] {
+  const providers: AIProvider[] = [];
+  if (keys.gemini) {
+    providers.push(createGeminiProvider(keys.gemini, process.env.GEMINI_MODEL));
   }
-  if (process.env.GROQ_API_KEY) {
-    providers.groq = createGroqProvider(process.env.GROQ_API_KEY, process.env.GROQ_MODEL);
-  }
-
-  const primary = (process.env.AI_PRIMARY || "gemini").toLowerCase();
-  const order = primary === "groq" ? ["groq", "gemini"] : ["gemini", "groq"];
-  return order.map((n) => providers[n]).filter((p): p is AIProvider => !!p);
+  return providers;
 }
 
-// Rebuilt per call so it always reflects the current env (cheap; no network on construction).
-function providers(): AIProvider[] {
-  return buildProviders();
+// Built per call from the passed keys (cheap; no network on construction).
+function providers(keys: AIKeys): AIProvider[] {
+  return buildProviders(keys);
 }
 
-export function isAIConfigured(): boolean {
-  return providers().length > 0;
+export function isAIConfigured(keys: AIKeys): boolean {
+  return providers(keys).length > 0;
 }
 
-// A short, human label for the active chain, e.g. "gemini-2.5-flash-lite (+groq fallback)". Useful
-// for UI copy + logs. Empty string when nothing is configured.
-export function aiChainLabel(): string {
-  const list = providers();
+// A short, human label for the active chain, e.g. "gemini-2.5-flash-lite". Useful for UI copy +
+// logs. Empty string when nothing is configured.
+export function aiChainLabel(keys: AIKeys): string {
+  const list = providers(keys);
   if (list.length === 0) return "";
   const [head, ...rest] = list;
   return rest.length ? `${head.model} (+${rest.map((p) => p.name).join(", ")} fallback)` : head.model;
@@ -71,9 +73,10 @@ export interface AIRun<T> {
 export async function generateStructured<T>(
   schema: z.ZodType<T>,
   opts: StructuredOptions,
+  keys: AIKeys,
   timeoutMs = DEFAULT_TIMEOUT_MS
 ): Promise<AIRun<T>> {
-  const chain = providers();
+  const chain = providers(keys);
   if (chain.length === 0) throw new AINotConfiguredError();
 
   let lastErr: unknown;
@@ -94,9 +97,10 @@ export async function generateStructured<T>(
 
 export async function generateText(
   opts: TextOptions,
+  keys: AIKeys,
   timeoutMs = DEFAULT_TIMEOUT_MS
 ): Promise<AIRun<string>> {
-  const chain = providers();
+  const chain = providers(keys);
   if (chain.length === 0) throw new AINotConfiguredError();
 
   let lastErr: unknown;

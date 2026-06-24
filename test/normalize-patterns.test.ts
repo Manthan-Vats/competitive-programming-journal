@@ -30,7 +30,7 @@ async function main() {
   // useAI:false forces static-only, so unknown tags yield [] without any network call.
   check(
     "unknown tags, useAI:false -> []",
-    eq(await aiNormalizePatterns(["implementation", "ad hoc"], { useAI: false }), [])
+    eq(await aiNormalizePatterns(["implementation", "ad hoc"], {}, { useAI: false }), [])
   );
 
   // Canonical ordering preserved when several resolve.

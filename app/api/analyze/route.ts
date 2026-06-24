@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { runAnalysis } from "@/lib/analyze";
+import { getUserGeminiKey } from "@/lib/ai/user-key";
 import { rateLimit } from "@/lib/rate-limit";
 import { errorResponse } from "@/lib/api-error";
 
@@ -37,8 +38,10 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Ownership is asserted inside runAnalysis (defense-in-depth atop RLS).
-  const result = await runAnalysis(supabase, solutionId, user.id);
+  // Ownership is asserted inside runAnalysis (defense-in-depth atop RLS). The caller's own
+  // (decrypted) Gemini key powers the analysis - BYOK, so each user spends their own quota.
+  const gemini = await getUserGeminiKey(user.id);
+  const result = await runAnalysis(supabase, solutionId, user.id, { gemini: gemini ?? undefined });
 
   if (result.code === "not_found") {
     return NextResponse.json({ error: "Solution not found" }, { status: 404 });
