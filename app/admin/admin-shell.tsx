@@ -21,6 +21,7 @@ import { ModifiedBear } from "@/components/modified-bear";
 import { StampButton } from "@/components/paper/stamp";
 import { useSfx } from "@/components/paper/sound-provider";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { OnboardingTour } from "@/components/onboarding-tour";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -135,6 +136,7 @@ export function AdminShell({
           href="/"
           target="_blank"
           rel="noreferrer"
+          data-tour="view-public"
           className="flex items-center gap-2 px-4 py-[7px] font-mono text-[12px] text-[#cdc3a3] hover:text-acid transition-colors"
         >
           view public
@@ -188,6 +190,7 @@ export function AdminShell({
             </div>
 
             <div className="flex items-center gap-2">
+              <OnboardingTour />
               <button
                 onClick={toggleSound}
                 title={soundOn ? "sound on" : "sound off"}

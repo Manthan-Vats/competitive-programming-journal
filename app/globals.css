@@ -425,3 +425,52 @@
   }
   .cpj-develop, .cpj-jigsaw-in, .cpj-cell-in { animation: cpj-develop 0.2s ease both; filter: none; transform: none; }
 }
+
+/* Driver.js guided-tour popover, themed to the paper desk (see components/onboarding-tour.tsx). */
+.driver-popover.cpj-tour {
+  background: var(--color-paper-sheet);
+  color: var(--color-ink);
+  border: 1px solid var(--color-paper-edge);
+  border-radius: 4px;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.32);
+  max-width: 320px;
+}
+.driver-popover.cpj-tour .driver-popover-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.05;
+  color: var(--color-ink);
+}
+.driver-popover.cpj-tour .driver-popover-description {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-ink-soft);
+}
+.driver-popover.cpj-tour .driver-popover-progress-text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--color-ink-faint);
+}
+.driver-popover.cpj-tour .driver-popover-navigation-btns button {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-shadow: none;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  border: 1px solid var(--color-paper-edge);
+  border-radius: 2px;
+  padding: 4px 10px;
+}
+.driver-popover.cpj-tour .driver-popover-navigation-btns button:hover {
+  background: var(--color-blood);
+  color: #fbe9e7;
+  border-color: var(--color-blood-deep);
+}
+.driver-popover.cpj-tour .driver-popover-close-btn { color: var(--color-ink-faint); }
+.driver-popover.cpj-tour .driver-popover-close-btn:hover { color: var(--color-blood); }
+.driver-popover.cpj-tour .driver-popover-arrow-side-left.driver-popover-arrow { border-left-color: var(--color-paper-sheet); }
+.driver-popover.cpj-tour .driver-popover-arrow-side-right.driver-popover-arrow { border-right-color: var(--color-paper-sheet); }
+.driver-popover.cpj-tour .driver-popover-arrow-side-top.driver-popover-arrow { border-top-color: var(--color-paper-sheet); }
+.driver-popover.cpj-tour .driver-popover-arrow-side-bottom.driver-popover-arrow { border-bottom-color: var(--color-paper-sheet); }
