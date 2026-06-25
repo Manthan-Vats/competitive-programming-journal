@@ -13,6 +13,7 @@ import { EasterEggs } from "@/components/easter-eggs";
 import { SoundProvider } from "@/components/paper/sound-provider";
 import { MotionProvider } from "@/components/paper/motion-provider";
 import { MusicPlayer } from "@/components/paper/music-player";
+import { Analytics } from "@vercel/analytics/next";
 
 /* - the five paper fonts, strict roles (00_FOUNDATIONS §2.2) - */
 const anton = Anton({
@@ -111,6 +112,8 @@ export default function RootLayout({
             <MusicPlayer />
           </SoundProvider>
         </MotionProvider>
+        {/* Cookieless, privacy-friendly page analytics. No-op off Vercel / in dev. */}
+        <Analytics />
       </body>
     </html>
   );

@@ -13,15 +13,30 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-// Lazy-load Monaco Editor (prevent SSR issues)
-const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-[400px] w-full cpj-graph border border-paper-edge flex items-center justify-center text-ink-soft text-[13px] rounded-[3px] font-type">
-      loading the editor...
-    </div>
-  ),
-});
+// Lazy-load Monaco Editor (prevent SSR issues). We SELF-HOST Monaco: by default
+// @monaco-editor/react pulls the editor from the jsdelivr CDN at runtime, which is a privacy +
+// CSP + offline concern. Pointing the loader at the bundled `monaco-editor` package keeps every
+// asset same-origin. The import happens inside this dynamic() factory so the heavy package only
+// loads when the editor actually mounts. (Editor workers fall back to blob: URLs, allowed by the
+// CSP worker-src; advanced language services degrade to the main thread, which is fine here.)
+const MonacoEditor = dynamic(
+  async () => {
+    const [reactMonaco, monaco] = await Promise.all([
+      import("@monaco-editor/react"),
+      import("monaco-editor"),
+    ]);
+    reactMonaco.loader.config({ monaco });
+    return reactMonaco.default;
+  },
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-[400px] w-full cpj-graph border border-paper-edge flex items-center justify-center text-ink-soft text-[13px] rounded-[3px] font-type">
+        loading the editor...
+      </div>
+    ),
+  }
+);
 
 interface CodeEditorProps {
   value: string;
