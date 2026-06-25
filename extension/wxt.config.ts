@@ -17,8 +17,10 @@ export default defineConfig({
     // (not the chrome.cookies API), so the `cookies` permission is not needed.
     permissions: ["storage", "unlimitedStorage", "activeTab", "tabs"],
     host_permissions: [
-      // cp-journal web app (dev). Add your prod domain here, e.g. "https://cp.example.com/*".
+      // cp-journal web app. Keep dev + prod in sync with background.ts TRUSTED_APP_ORIGINS
+      // and connect.content.ts `matches`.
       "http://localhost:3000/*",
+      "https://competitive-programming-journal.vercel.app/*",
       // Judges we capture from (v1).
       "https://codeforces.com/*",
       "https://*.codeforces.com/*",
