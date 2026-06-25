@@ -10,6 +10,7 @@ import { ShareCard } from "@/components/share-card";
 import { AIKey } from "@/components/ai-key";
 import { AIAnalysis } from "@/components/ai-analysis";
 import { DangerZone } from "@/components/danger-zone";
+import { ExtensionInstall } from "@/components/extension-install";
 import { PaperSheet } from "@/components/paper/paper-sheet";
 import { StampButton } from "@/components/paper/stamp";
 import { Cap } from "@/components/paper/bits";
@@ -203,7 +204,10 @@ export default function SettingsPage() {
 
       {/* ④ SYNC */}
       <Section cap="④ SYNC FROM THE JUDGES · the filing clerk">
-        <SyncHistory cfHandle={form.cf_handle} lcHandle={form.lc_handle} />
+        <div className="space-y-5">
+          <ExtensionInstall />
+          <SyncHistory cfHandle={form.cf_handle} lcHandle={form.lc_handle} />
+        </div>
       </Section>
 
       {/* ⑤ AI LIBRARIAN */}
