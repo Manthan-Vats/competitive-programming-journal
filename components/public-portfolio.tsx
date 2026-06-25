@@ -267,6 +267,10 @@ export const PublicPortfolio: React.FC<PublicPortfolioProps> = ({ problems, prof
             handcrafted by the TaxMan - aka Manthan Vats - himself
           </span>
           <span className="font-mono text-[11px] tracking-[0.16em] text-ink-faint uppercase">
+            <a href="/privacy" className="hover:text-blood transition-colors">privacy</a>
+            {" · "}
+            <a href="/terms" className="hover:text-blood transition-colors">terms</a>
+            {" · "}
             CP JOURNAL · 2026
           </span>
         </footer>

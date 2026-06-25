@@ -1,0 +1,227 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e62]:
+    - complementary [ref=e63]:
+      - navigation "Journal sections" [ref=e64]:
+        - generic [ref=e65]:
+          - link "modified bear CP JOURNAL" [ref=e66] [cursor=pointer]:
+            - /url: /
+            - img "modified bear" [ref=e67]
+            - generic [ref=e74]: CP JOURNAL
+          - generic [ref=e75]: TRACKLIST
+          - link "01 Dashboard" [ref=e76] [cursor=pointer]:
+            - /url: /admin
+            - generic [ref=e77]: "01"
+            - img [ref=e78]
+            - generic [ref=e83]: Dashboard
+          - link "02 Problems" [ref=e85] [cursor=pointer]:
+            - /url: /admin/problems
+            - generic [ref=e87]: "02"
+            - img [ref=e88]
+            - generic [ref=e90]: Problems
+          - link "03 Analytics" [ref=e92] [cursor=pointer]:
+            - /url: /admin/analytics
+            - generic [ref=e93]: "03"
+            - img [ref=e94]
+            - generic [ref=e95]: Analytics
+          - link "04 Revision" [ref=e97] [cursor=pointer]:
+            - /url: /admin/revision
+            - generic [ref=e98]: "04"
+            - img [ref=e99]
+            - generic [ref=e107]: Revision
+          - link "05 Settings" [ref=e109] [cursor=pointer]:
+            - /url: /admin/settings
+            - generic [ref=e110]: "05"
+            - img [ref=e111]
+            - generic [ref=e114]: Settings
+        - generic [ref=e117]:
+          - link "view public" [ref=e119] [cursor=pointer]:
+            - /url: /
+          - button "EXIT music for a film" [ref=e120]:
+            - text: EXIT
+            - generic [ref=e121]: music for a film
+    - generic [ref=e122]:
+      - banner [ref=e123]:
+        - generic [ref=e124]:
+          - button "sound off" [ref=e125]:
+            - img [ref=e126]
+          - link "ADD PROBLEM" [ref=e130] [cursor=pointer]:
+            - /url: /admin/problems/new
+            - button "ADD PROBLEM" [ref=e131]:
+              - img [ref=e132]
+              - generic [ref=e133]: ADD PROBLEM
+      - main [ref=e134]:
+        - generic [ref=e135]:
+          - img
+          - generic [ref=e136]:
+            - generic [ref=e137]:
+              - generic [ref=e138]:
+                - generic [ref=e139]: 02 · PROBLEMS
+                - heading "THE BENDS" [level=1] [ref=e140]
+                - paragraph [ref=e141]: 201 of 201 · everything in its right place
+              - group "View mode" [ref=e142]:
+                - button "grid" [pressed] [ref=e143]
+                - button "list" [ref=e144]
+            - generic [ref=e145]:
+              - generic [ref=e146]:
+                - img [ref=e147]
+                - textbox "search problems, platform id, or tags..." [ref=e150]
+              - combobox [ref=e151]:
+                - generic [ref=e152]: all
+                - img: ▼
+              - textbox [ref=e153]: all
+              - combobox [ref=e154]:
+                - generic [ref=e155]: all
+                - img: ▼
+              - textbox [ref=e156]: all
+              - combobox [ref=e157]:
+                - generic [ref=e158]: all
+                - img: ▼
+              - textbox [ref=e159]: all
+              - combobox [ref=e160]:
+                - generic [ref=e161]: all
+                - img: ▼
+              - textbox [ref=e162]: all
+              - combobox [ref=e163]:
+                - generic [ref=e164]: date-desc
+                - img: ▼
+              - textbox [ref=e165]: date-desc
+            - generic [ref=e166]:
+              - button "CF · unknown 4s · 5 days ago A. Destroying Towers 2-sat fft flows greedy" [ref=e167] [cursor=pointer]:
+                - generic [ref=e168]:
+                  - generic [ref=e169]: CF · unknown
+                  - generic [ref=e170]: 4s · 5 days ago
+                - heading "A. Destroying Towers" [level=3] [ref=e171]
+                - generic [ref=e172]:
+                  - generic [ref=e173]:
+                    - generic [ref=e174]: 2-sat
+                    - generic [ref=e175]: fft
+                    - generic [ref=e176]: flows
+                    - generic [ref=e177]: greedy
+                  - img [ref=e178]
+              - button "CF · unknown 0s · Jun 16, 2026 C. Omsk Programmers" [ref=e181] [cursor=pointer]:
+                - generic [ref=e182]:
+                  - generic [ref=e183]: CF · unknown
+                  - generic [ref=e184]: 0s · Jun 16, 2026
+                - heading "C. Omsk Programmers" [level=3] [ref=e185]
+                - img [ref=e187]
+              - button "CF · 1100 0s · Feb 16, 2025 B. Variety is Discouraged binary search constructive algorithms greedy" [ref=e190] [cursor=pointer]:
+                - generic [ref=e191]:
+                  - generic [ref=e192]: CF · 1100
+                  - generic [ref=e193]: 0s · Feb 16, 2025
+                - heading "B. Variety is Discouraged" [level=3] [ref=e194]
+                - generic [ref=e195]:
+                  - generic [ref=e196]:
+                    - generic [ref=e197]: binary search
+                    - generic [ref=e198]: constructive algorithms
+                    - generic [ref=e199]: greedy
+                  - img [ref=e200]
+              - button "CF · 800 0s · Feb 16, 2025 A. Brogramming Contest greedy strings" [ref=e203] [cursor=pointer]:
+                - generic [ref=e204]:
+                  - generic [ref=e205]: CF · 800
+                  - generic [ref=e206]: 0s · Feb 16, 2025
+                - heading "A. Brogramming Contest" [level=3] [ref=e207]
+                - generic [ref=e208]:
+                  - generic [ref=e209]:
+                    - generic [ref=e210]: greedy
+                    - generic [ref=e211]: strings
+                  - img [ref=e212]
+              - button "CF · 1900 0s · Feb 2, 2025 D. Graph and Graph data structures graphs greedy" [ref=e215] [cursor=pointer]:
+                - generic [ref=e216]:
+                  - generic [ref=e217]: CF · 1900
+                  - generic [ref=e218]: 0s · Feb 2, 2025
+                - heading "D. Graph and Graph" [level=3] [ref=e219]
+                - generic [ref=e220]:
+                  - generic [ref=e221]:
+                    - generic [ref=e222]: data structures
+                    - generic [ref=e223]: graphs
+                    - generic [ref=e224]: greedy
+                  - img [ref=e225]
+              - button "CF · 1300 0s · Feb 2, 2025 B. Cost of the Array brute force constructive algorithms greedy" [ref=e228] [cursor=pointer]:
+                - generic [ref=e229]:
+                  - generic [ref=e230]: CF · 1300
+                  - generic [ref=e231]: 0s · Feb 2, 2025
+                - heading "B. Cost of the Array" [level=3] [ref=e232]
+                - generic [ref=e233]:
+                  - generic [ref=e234]:
+                    - generic [ref=e235]: brute force
+                    - generic [ref=e236]: constructive algorithms
+                    - generic [ref=e237]: greedy
+                  - img [ref=e238]
+              - button "CF · 1600 0s · Feb 2, 2025 C. Customer Service brute force constructive algorithms graph matchings" [ref=e241] [cursor=pointer]:
+                - generic [ref=e242]:
+                  - generic [ref=e243]: CF · 1600
+                  - generic [ref=e244]: 0s · Feb 2, 2025
+                - heading "C. Customer Service" [level=3] [ref=e245]
+                - generic [ref=e246]:
+                  - generic [ref=e247]:
+                    - generic [ref=e248]: brute force
+                    - generic [ref=e249]: constructive algorithms
+                    - generic [ref=e250]: graph matchings
+                  - img [ref=e251]
+              - button "CF · 800 0s · Feb 2, 2025 A. Milya and Two Arrays constructive algorithms greedy sortings" [ref=e254] [cursor=pointer]:
+                - generic [ref=e255]:
+                  - generic [ref=e256]: CF · 800
+                  - generic [ref=e257]: 0s · Feb 2, 2025
+                - heading "A. Milya and Two Arrays" [level=3] [ref=e258]
+                - generic [ref=e259]:
+                  - generic [ref=e260]:
+                    - generic [ref=e261]: constructive algorithms
+                    - generic [ref=e262]: greedy
+                    - generic [ref=e263]: sortings
+                  - img [ref=e264]
+              - button "CF · 800 0s · Jan 26, 2025 A. String constructive algorithms greedy math" [ref=e267] [cursor=pointer]:
+                - generic [ref=e268]:
+                  - generic [ref=e269]: CF · 800
+                  - generic [ref=e270]: 0s · Jan 26, 2025
+                - heading "A. String" [level=3] [ref=e271]
+                - generic [ref=e272]:
+                  - generic [ref=e273]:
+                    - generic [ref=e274]: constructive algorithms
+                    - generic [ref=e275]: greedy
+                    - generic [ref=e276]: math
+                  - img [ref=e277]
+              - button "CF · 900 0s · Dec 20, 2024 B. Burglar and Matches greedy implementation sortings" [ref=e280] [cursor=pointer]:
+                - generic [ref=e281]:
+                  - generic [ref=e282]: CF · 900
+                  - generic [ref=e283]: 0s · Dec 20, 2024
+                - heading "B. Burglar and Matches" [level=3] [ref=e284]
+                - generic [ref=e285]:
+                  - generic [ref=e286]:
+                    - generic [ref=e287]: greedy
+                    - generic [ref=e288]: implementation
+                    - generic [ref=e289]: sortings
+                  - img [ref=e290]
+              - button "CF · 1000 0s · Dec 20, 2024 A. String Task implementation strings" [ref=e293] [cursor=pointer]:
+                - generic [ref=e294]:
+                  - generic [ref=e295]: CF · 1000
+                  - generic [ref=e296]: 0s · Dec 20, 2024
+                - heading "A. String Task" [level=3] [ref=e297]
+                - generic [ref=e298]:
+                  - generic [ref=e299]:
+                    - generic [ref=e300]: implementation
+                    - generic [ref=e301]: strings
+                  - img [ref=e302]
+              - button "CF · 900 0s · Dec 19, 2024 A. Even Odds math" [ref=e305] [cursor=pointer]:
+                - generic [ref=e306]:
+                  - generic [ref=e307]: CF · 900
+                  - generic [ref=e308]: 0s · Dec 19, 2024
+                - heading "A. Even Odds" [level=3] [ref=e309]
+                - generic [ref=e310]:
+                  - generic [ref=e312]: math
+                  - img [ref=e313]
+            - generic [ref=e316]:
+              - button "prev" [disabled] [ref=e317]:
+                - img [ref=e318]
+                - text: prev
+              - generic [ref=e320]: p.1 of 17
+              - button "next" [ref=e321]:
+                - text: next
+                - img [ref=e322]
+  - region "Notifications alt+T"
+  - generic [ref=e33]:
+    - button "drag player" [ref=e34]:
+      - img [ref=e35]
+    - button "open the tracklist" [ref=e42]:
+      - img [ref=e43]
+      - generic [ref=e48]: tracklist
+  - alert [ref=e49]
