@@ -43,3 +43,6 @@ next-env.d.ts
 
 # owned audio (bring your own tracks; see public/audio/README.txt)
 /public/audio/*.mp3
+
+# Playwright MCP scratch artifacts (console logs, page snapshots)
+/.playwright-mcp/
