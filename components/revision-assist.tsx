@@ -46,13 +46,15 @@ export function RevisionAssist({
   const [critique, setCritique] = useState<CritiqueResult | null>(null);
   const [card, setCard] = useState<PatternCardResult | null>(null);
 
-  const run = async (action: Action) => {
+  // `regenerate` forces a fresh model call; otherwise the server serves a saved result for this
+  // problem instantly (no quota spent) when one exists.
+  const run = async (action: Action, regenerate = false) => {
     setBusy(action);
     try {
       const res = await fetch("/api/review/assist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ problem_id: problemId, action }),
+        body: JSON.stringify({ problem_id: problemId, action, regenerate }),
       });
       const data = await res.json();
       if (res.status === 503) {
@@ -72,6 +74,18 @@ export function RevisionAssist({
       setBusy(null);
     }
   };
+
+  // Small "regenerate" link shown on a loaded result - re-runs with a fresh model call.
+  const Regen = ({ action }: { action: Action }) => (
+    <button
+      onClick={() => run(action, true)}
+      disabled={busy !== null}
+      title="Generate a fresh take (uses one AI request)"
+      className="ml-auto font-mono text-[10px] uppercase tracking-[0.08em] text-ink-faint hover:text-blueprint disabled:opacity-40"
+    >
+      {busy === action ? "..." : "↻ regenerate"}
+    </button>
+  );
 
   return (
     <div className="space-y-3">
@@ -111,9 +125,12 @@ export function RevisionAssist({
       {/* Hint - revealed one at a time so it stays a nudge, not a spoiler. */}
       {hint && hint.hints.length > 0 && (
         <div className="bg-paper rounded-[3px] p-3 mt-2 shadow-[inset_0_0_0_1px_rgba(33,30,24,.08)] space-y-2">
-          <Cap className="!text-ink-faint">
-            HINT {Math.min(shownHints, hint.hints.length)} / {hint.hints.length}
-          </Cap>
+          <div className="flex items-center gap-2">
+            <Cap className="!text-ink-faint">
+              HINT {Math.min(shownHints, hint.hints.length)} / {hint.hints.length}
+            </Cap>
+            <Regen action="hint" />
+          </div>
           <ol className="list-decimal list-inside space-y-1.5">
             {hint.hints.slice(0, shownHints).map((h, i) => (
               <li
@@ -137,7 +154,10 @@ export function RevisionAssist({
       {/* Critique */}
       {critique && (
         <div className="bg-paper rounded-[3px] p-3 mt-2 shadow-[inset_0_0_0_1px_rgba(33,30,24,.08)] space-y-2">
-          <Cap className="!text-ink-faint">CRITIQUE</Cap>
+          <div className="flex items-center gap-2">
+            <Cap className="!text-ink-faint">CRITIQUE</Cap>
+            <Regen action="critique" />
+          </div>
           <p className="font-mono text-[11px] text-ink">
             Time: {critique.time_complexity} · Space: {critique.space_complexity}
           </p>
@@ -180,6 +200,7 @@ export function RevisionAssist({
           <div className="flex items-center gap-2">
             <Cap className="!text-ink-faint">PATTERN CARD</Cap>
             <TopicChip tag={card.pattern} />
+            <Regen action="pattern_card" />
           </div>
           <p
             className="font-body text-[14px] leading-[1.55] text-ink"

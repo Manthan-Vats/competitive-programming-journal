@@ -1,4 +1,4 @@
-import React from "react";
+import React, { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { getOperatorId } from "@/lib/auth/operator";
 import { processPublicProblems, PUBLIC_PORTFOLIO_SELECT, PUBLIC_PROFILE_SELECT, computePatternCounts } from "@/lib/portfolio";
@@ -11,19 +11,21 @@ import { Metadata } from "next";
 // Other users' portfolios live at /u/<handle>. Everything here is scoped to the
 // operator's user_id; if no operator is configured it renders an empty shell.
 
+// Wrapped in React `cache()` so generateMetadata + the page component (same request) share ONE
+// profile query. PUBLIC_PROFILE_SELECT already includes display_name + bio (the metadata fields).
+const loadOperatorProfile = cache(async (operatorId: string) => {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("profile")
+    .select(PUBLIC_PROFILE_SELECT)
+    .eq("user_id", operatorId)
+    .maybeSingle();
+  return data;
+});
+
 export async function generateMetadata(): Promise<Metadata> {
   const operatorId = getOperatorId();
-  let profile: { display_name: string | null; bio: string | null } | null = null;
-
-  if (operatorId) {
-    const supabase = await createClient();
-    const { data } = await supabase
-      .from("profile")
-      .select("display_name, bio")
-      .eq("user_id", operatorId)
-      .maybeSingle();
-    profile = data;
-  }
+  const profile = operatorId ? await loadOperatorProfile(operatorId) : null;
 
   const name = profile?.display_name || "Competitive Programmer";
   const bio =
@@ -50,26 +52,23 @@ export default async function PublicPortfolioPage() {
   let verifications: PublicVerification[] = [];
 
   if (operatorId) {
-    const { data: profileData } = await supabase
-      .from("profile")
-      .select(PUBLIC_PROFILE_SELECT)
-      .eq("user_id", operatorId)
-      .maybeSingle();
+    // profile (cache-shared with generateMetadata), problems, and verifications are independent ->
+    // fetch in parallel instead of three sequential round-trips.
+    const [profileData, { data: problems }, { data: verifyRows }] = await Promise.all([
+      loadOperatorProfile(operatorId),
+      supabase
+        .from("problems")
+        .select(PUBLIC_PORTFOLIO_SELECT)
+        .eq("user_id", operatorId)
+        .eq("is_public", true),
+      supabase
+        .from("platform_verifications")
+        .select("platform, handle, stats, verified_at, source")
+        .eq("user_id", operatorId)
+        .eq("status", "verified"),
+    ]);
     profile = profileData;
-
-    const { data: problems } = await supabase
-      .from("problems")
-      .select(PUBLIC_PORTFOLIO_SELECT)
-      .eq("user_id", operatorId)
-      .eq("is_public", true);
-
     processedProblems = processPublicProblems(problems);
-
-    const { data: verifyRows } = await supabase
-      .from("platform_verifications")
-      .select("platform, handle, stats, verified_at, source")
-      .eq("user_id", operatorId)
-      .eq("status", "verified");
     verifications = (verifyRows ?? []) as PublicVerification[];
   }
 

@@ -46,9 +46,15 @@ export default async function PublicProblemDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const supabase = await createClient();
 
+  // Select only the nested columns this page renders. In particular ai_analyses drops the heavy
+  // `raw_response` JSON blob (never shown publicly - only the four tag arrays are used), and
+  // solutions/timing_sessions drop unused columns. Top-level problem fields stay `*` (most scalar
+  // columns are rendered).
   const { data: problem, error } = await supabase
     .from("problems")
-    .select(`*, solutions (*, ai_analyses (*)), timing_sessions (*)`)
+    .select(
+      `*, solutions (id, code, language, label, is_public_code, ai_analyses (algorithms, data_structures, techniques, math_concepts)), timing_sessions (started_at, ended_at)`
+    )
     .eq("id", slug)
     .maybeSingle();
 

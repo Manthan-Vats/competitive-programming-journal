@@ -85,11 +85,14 @@ export async function enrichCodeforces(platformId: string): Promise<CfEnrichment
   if (!ids) return null;
   const key = `${ids.contestId}-${ids.index}`;
 
+  // Refresh ONLY when the cache is missing or stale (loadCache returns null in both cases). We
+  // deliberately do NOT refresh just because one key is absent from an otherwise-fresh cache:
+  // problems not in the public problemset (gym / live contest / brand-new) would otherwise force a
+  // full ~10k-problem refetch on EVERY enrich call - so a bulk import of such problems would refetch
+  // the entire problemset once per problem. A newly-rated problem is instead picked up on the next
+  // TTL refresh (<=12h), which is fine for best-effort enrichment.
   let cache = await loadCache();
-  if (!cache || !cache.map[key]) {
-    // Miss or stale -> try a refresh once (covers newly-rated problems too).
-    cache = (await refreshCache()) ?? cache;
-  }
+  if (!cache) cache = await refreshCache();
   const entry = cache?.map[key];
   if (!entry) return null;
   return { rating: entry.rating, tags: entry.tags };

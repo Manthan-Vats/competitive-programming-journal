@@ -1,4 +1,4 @@
-import React from "react";
+import React, { cache } from "react";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { processPublicProblems, PUBLIC_PORTFOLIO_SELECT, PUBLIC_PROFILE_SELECT, computePatternCounts } from "@/lib/portfolio";
@@ -12,7 +12,9 @@ interface PageProps {
 }
 
 // Usernames are stored lowercased; the lookup matches that.
-async function loadProfile(handle: string) {
+// Wrapped in React `cache()` so generateMetadata + the page component (which both run in the same
+// request) share ONE profile query instead of issuing it twice.
+const loadProfile = cache(async (handle: string) => {
   const supabase = await createClient();
   const { data } = await supabase
     .from("profile")
@@ -20,7 +22,7 @@ async function loadProfile(handle: string) {
     .eq("username", handle.toLowerCase())
     .maybeSingle();
   return data;
-}
+});
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { handle } = await params;
@@ -47,21 +49,23 @@ export default async function UserPortfolioPage({ params }: PageProps) {
   const profile = await loadProfile(handle);
   if (!profile) notFound();
 
-  const { data: problems } = await supabase
-    .from("problems")
-    .select(PUBLIC_PORTFOLIO_SELECT)
-    .eq("user_id", profile.user_id)
-    .eq("is_public", true);
+  // problems + verifications are independent (both keyed by profile.user_id) -> fetch in parallel.
+  const [{ data: problems }, { data: verifyRows }] = await Promise.all([
+    supabase
+      .from("problems")
+      .select(PUBLIC_PORTFOLIO_SELECT)
+      .eq("user_id", profile.user_id)
+      .eq("is_public", true),
+    // Verified handles + their snapshotted stats (RLS public_read_verified -> only verified rows).
+    supabase
+      .from("platform_verifications")
+      .select("platform, handle, stats, verified_at, source")
+      .eq("user_id", profile.user_id)
+      .eq("status", "verified"),
+  ]);
 
   const processedProblems = processPublicProblems(problems);
   const patternCounts = computePatternCounts(processedProblems);
-
-  // Verified handles + their snapshotted stats (RLS public_read_verified -> only verified rows).
-  const { data: verifyRows } = await supabase
-    .from("platform_verifications")
-    .select("platform, handle, stats, verified_at, source")
-    .eq("user_id", profile.user_id)
-    .eq("status", "verified");
   const verifications = (verifyRows ?? []) as PublicVerification[];
 
   const jsonLd = {
