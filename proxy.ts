@@ -1,7 +1,9 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
+// Next.js "proxy" (formerly "middleware"; renamed in Next 16). Runs in front of every matched
+// request on the Node runtime. Refreshes the Supabase auth session cookie and gates /admin.
+export async function proxy(request: NextRequest) {
   let response = NextResponse.next({
     request: {
       headers: request.headers,
