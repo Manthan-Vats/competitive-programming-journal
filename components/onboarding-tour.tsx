@@ -125,7 +125,8 @@ export const OnboardingTour: React.FC = () => {
       onClick={startTour}
       title="Replay the guided tour"
       aria-label="Replay the guided tour"
-      className="flex items-center justify-center font-mono text-[10px] rounded-[2px] w-[30px] h-[30px] border bg-paper-sheet text-ink-soft border-paper-edge hover:text-blood cpj-card-shadow transition-colors"
+      // Hidden on mobile: the tour spotlights the desktop spine nav, which is collapsed on phones.
+      className="hidden sm:flex items-center justify-center font-mono text-[10px] rounded-[2px] w-[30px] h-[30px] border bg-paper-sheet text-ink-soft border-paper-edge hover:text-blood cpj-card-shadow transition-colors"
     >
       <HelpCircle className="w-4 h-4" />
     </button>
