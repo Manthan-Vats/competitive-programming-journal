@@ -9,6 +9,7 @@ import { VerifyHandles } from "@/components/verify-handles";
 import { ShareCard } from "@/components/share-card";
 import { AIKey } from "@/components/ai-key";
 import { AIAnalysis } from "@/components/ai-analysis";
+import { DangerZone } from "@/components/danger-zone";
 import { PaperSheet } from "@/components/paper/paper-sheet";
 import { StampButton } from "@/components/paper/stamp";
 import { Cap } from "@/components/paper/bits";
@@ -222,6 +223,11 @@ export default function SettingsPage() {
           </span>
           Sound - typewriter / stamp / page-turn <span className="text-ink-faint">({soundOn ? "on" : "off"})</span>
         </button>
+      </Section>
+
+      {/* ⑦ HOW TO DISAPPEAR COMPLETELY */}
+      <Section cap="⑦ HOW TO DISAPPEAR COMPLETELY · your data">
+        <DangerZone />
       </Section>
     </PaperSheet>
   );

@@ -29,6 +29,10 @@ export const SiteFooter: React.FC = () => {
       </p>
       <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
         CP Journal · {new Date().getFullYear()} ·{" "}
+        <a href="/privacy" className="hover:text-blood transition-colors">privacy</a>
+        {" · "}
+        <a href="/terms" className="hover:text-blood transition-colors">terms</a>
+        {" · "}
         <button
           type="button"
           onClick={onMath}

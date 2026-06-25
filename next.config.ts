@@ -68,5 +68,6 @@ export default withSentryConfig(nextConfig, {
   widenClientFileUpload: true,
   // Proxy client error/trace traffic through our own origin to beat ad-blockers and keep CSP tight.
   tunnelRoute: "/monitoring",
-  disableLogger: true,
+  // Tree-shake Sentry's debug logging out of the production bundle.
+  webpack: { treeshake: { removeDebugLogging: true } },
 });
