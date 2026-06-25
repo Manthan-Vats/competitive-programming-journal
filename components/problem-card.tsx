@@ -108,7 +108,13 @@ export const ProblemCard: React.FC<ProblemCardProps> = ({
         >
           {plat} · {rating}
         </span>
-        <span className="font-mono text-[10px] tracking-[0.12em] text-ink-faint whitespace-nowrap">
+        {/* formatDate compares against "today" in LOCAL time, so the server (UTC) and client can
+            render different text - a hydration mismatch (React #418). suppressHydrationWarning is
+            the sanctioned fix for inherently time/locale-dependent text; the client value wins. */}
+        <span
+          suppressHydrationWarning
+          className="font-mono text-[10px] tracking-[0.12em] text-ink-faint whitespace-nowrap"
+        >
           {formatTime(totalTimeSpent)} · {formatDate(problem.solved_at || problem.created_at)}
         </span>
       </div>
