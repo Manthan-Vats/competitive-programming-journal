@@ -10,10 +10,12 @@ import type {
   SolutionResult,
 } from "../../lib/messages";
 
-// Default cp-journal instance used for the connect link (dev). For a prod instance,
-// change this to your deployed domain (and add it to wxt.config host_permissions +
-// connect.content.ts matches).
-const DEFAULT_APP_BASE = "http://localhost:3000";
+// Default cp-journal instance the "Connect" button opens for a fresh install. This is the
+// PRODUCTION app (the published extension must send new users to the live site, not localhost).
+// Must be a trusted origin in background.ts TRUSTED_APP_ORIGINS + wxt.config host_permissions +
+// connect.content.ts matches. For local dev against localhost, connect once from
+// http://localhost:3000/extension/connect (its origin is then remembered as apiBase).
+const DEFAULT_APP_BASE = "https://competitive-programming-journal.vercel.app";
 
 const statusEl = document.getElementById("status")!;
 const actionsEl = document.getElementById("actions")!;
