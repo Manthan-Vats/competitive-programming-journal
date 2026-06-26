@@ -78,7 +78,7 @@ export function AdminShell({
         >
           <ModifiedBear className="w-[15px] h-[15px] text-blood shrink-0" />
           <span className="font-mono text-[13px] tracking-[0.16em] text-[#efe7cf]">
-            CP JOURNAL
+            SOLVELOG
           </span>
         </Link>
         <div className="font-mono text-[10px] tracking-[0.22em] text-[#8d856c] px-4 pb-1.5">

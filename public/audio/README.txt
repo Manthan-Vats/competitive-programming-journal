@@ -1,4 +1,4 @@
-CP JOURNAL - AUDIO / TRACKLIST
+SOLVELOG - AUDIO / TRACKLIST
 
 The floating "TRACKLIST" player plays the tracks listed in `lib/tracks.ts`. Drop your
 licensed/owned .mp3 files into THIS folder using EXACTLY these (kebab-case) filenames:

@@ -56,7 +56,7 @@ export default function LoginPage() {
         <div className="select-none">
           <ModifiedBear className="w-[34px] h-[34px] mx-auto text-ink" />
           <div className="font-mono text-[12px] tracking-[0.2em] text-ink-soft mt-2.5">
-            CP JOURNAL
+            SOLVELOG
           </div>
           <p className="font-type text-[15px] text-blood mt-3">i don&apos;t belong here.</p>
         </div>
@@ -102,7 +102,7 @@ export default function LoginPage() {
         </form>
 
         <p className="font-mono text-[9px] tracking-[0.1em] text-ink-faint mt-5">
-          invite-only · request access on the public page
+          invite-only · request access on the home page
         </p>
       </PaperSheet>
     </div>

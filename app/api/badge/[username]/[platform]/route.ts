@@ -29,7 +29,7 @@ export async function GET(
   const { username, platform } = await params;
   const meta = PLATFORM_META[platform];
   if (!isVerifyPlatform(platform) || !meta) {
-    return badge("cp-journal", "unknown platform", "lightgrey");
+    return badge("solvelog", "unknown platform", "lightgrey");
   }
 
   try {

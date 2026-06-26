@@ -6,8 +6,8 @@ import { Cap } from "@/components/paper/bits";
 import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - CP Journal",
-  description: "What CP Journal collects, how it is stored, and your data rights.",
+  title: "Privacy Policy - SolveLog",
+  description: "What SolveLog collects, how it is stored, and your data rights.",
 };
 
 // Operator contact for data requests. Update if the instance is run by someone else.
@@ -37,7 +37,7 @@ export default function PrivacyPage() {
 
           <Block cap="WHO WE ARE">
             <P>
-              CP Journal is a personal competitive-programming journal and public portfolio. It is
+              SolveLog is a personal practice journal and public portfolio for the problems you solve. It is
               invite-only: each invited person owns their own data, isolated from everyone else by
               database row-level security. This policy explains what we store and your rights over it.
             </P>
@@ -49,7 +49,7 @@ export default function PrivacyPage() {
             </P>
             <P>
               <strong>Profile you enter:</strong> your public handle, display name, bio, and any
-              competitive-programming / social handles you choose to add.
+              coding / social handles you choose to add.
             </P>
             <P>
               <strong>Journal content:</strong> the problems, solution code, notes, tags, and solve
@@ -68,7 +68,7 @@ export default function PrivacyPage() {
 
           <Block cap="THE BROWSER EXTENSION">
             <P>
-              The optional CP Journal Companion extension captures a problem&apos;s metadata and your
+              The optional SolveLog Companion extension captures a problem&apos;s metadata and your
               own solution code from judge pages you are viewing, and sends them to your journal over
               a per-user, revocable access token. It reads only what is needed to file a problem. We
               never store your judge passwords or session cookies on our servers - the token only

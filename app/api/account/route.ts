@@ -48,7 +48,7 @@ export async function GET() {
     return new NextResponse(JSON.stringify(dump, null, 2), {
       headers: {
         "Content-Type": "application/json",
-        "Content-Disposition": `attachment; filename="cp-journal-export-${user.id.slice(0, 8)}.json"`,
+        "Content-Disposition": `attachment; filename="solvelog-export-${user.id.slice(0, 8)}.json"`,
       },
     });
   } catch (err) {

@@ -1,11 +1,11 @@
-# cp-journal
+# SolveLog
 
-A multi-tenant, invite-only competitive-programming journal and portfolio. Each invited user
-captures problems (manually or via the
-[Competitive Companion](https://github.com/jmerle/competitive-companion) browser extension),
-attaches solutions, times attempts, optionally gets AI tags per solution, and publishes a
-curated public portfolio at `/u/<handle>`. Data is **private by default** and per-user; a
-single **operator** runs the instance and approves who gets in.
+A multi-tenant, invite-only practice journal and portfolio for the problems you solve. Each
+invited user captures problems (manually or via the **SolveLog Companion** browser extension in
+`extension/`), attaches solutions, times attempts, optionally gets AI tags per solution, reviews
+them with spaced repetition, and publishes a curated public portfolio at `/u/<handle>`. Data is
+**private by default** and per-user; a single **operator** runs the instance and approves who
+gets in.
 
 ## Stack
 
@@ -96,8 +96,8 @@ Each user enables AI by pasting their own free Gemini key in Settings (BYOK).
 
 ## Project layout
 
-- `app/` - App Router pages + API routes (`app/api/**`); public portfolios at `/` (operator)
-  and `/u/<handle>`; invite acceptance at `/auth/confirm` -> `/auth/set-password`
+- `app/` - App Router pages + API routes (`app/api/**`); marketing landing at `/` (logged-out)
+  with public portfolios at `/u/<handle>`; invite acceptance at `/auth/confirm` -> `/auth/set-password`
 - `lib/` - Supabase clients, Gemini, the `isOperator` auth helper (`lib/auth/operator.ts`),
   public-portfolio shaping (`lib/portfolio.ts`)
 - `supabase/migrations/` - schema + per-user RLS policies (`002_multitenant.sql`)

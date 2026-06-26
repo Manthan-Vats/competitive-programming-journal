@@ -33,12 +33,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const name = profile.display_name || `@${profile.username}`;
   const bio =
     profile.bio ||
-    `${name}'s competitive programming portfolio - solved problems and algorithmic techniques.`;
+    `${name}'s SolveLog - the problems they've solved, filed and verified.`;
 
   return {
-    title: `${name} - CP Journal`,
+    title: `${name} - SolveLog`,
     description: bio,
-    openGraph: { title: `${name} - CP Journal`, description: bio, type: "website" },
+    openGraph: { title: `${name} - SolveLog`, description: bio, type: "website" },
   };
 }
 
@@ -72,7 +72,7 @@ export default async function UserPortfolioPage({ params }: PageProps) {
     "@context": "https://schema.org",
     "@type": "Person",
     name: profile.display_name || `@${profile.username}`,
-    description: profile.bio || "Competitive Programming solutions journal.",
+    description: profile.bio || "A SolveLog practice portfolio.",
     sameAs: [
       profile.cf_handle ? `https://codeforces.com/profile/${profile.cf_handle}` : null,
       profile.lc_handle ? `https://leetcode.com/${profile.lc_handle}` : null,

@@ -1,6 +1,6 @@
 {
-  "name": "cp-journal-companion",
-  "description": "Capture competitive-programming problems into your cp-journal - one-click capture, timer, and import.",
+  "name": "solvelog-companion",
+  "description": "Capture coding problems into SolveLog - one-click capture, timer, and import.",
   "private": true,
   "version": "1.0.0",
   "type": "module",

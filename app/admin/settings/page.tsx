@@ -165,13 +165,13 @@ export default function SettingsPage() {
             <Cap className="text-center mb-2">LIVE PREVIEW</Cap>
             <div className="bg-paper border border-paper-edge rounded-[3px] cpj-card-shadow p-4">
               <div className="border-b border-dashed border-ink/30 pb-2 mb-2.5 font-mono text-[9px] tracking-[0.16em] text-ink-faint">
-                CP JOURNAL · PUBLIC IDENTITY · /u/{form.username || "..."}
+                SOLVELOG · PUBLIC IDENTITY · /u/{form.username || "..."}
               </div>
               <p className="font-display text-[24px] leading-[0.95] uppercase">
-                {form.display_name?.trim() || "Competitive Programmer"}
+                {form.display_name?.trim() || "A SolveLog member"}
               </p>
               <p className="font-body text-[13px] leading-[1.5] text-ink-soft my-2">
-                {form.bio?.trim() || "A personal competitive programming portfolio."}
+                {form.bio?.trim() || "Your public SolveLog portfolio."}
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {HANDLE_LINKS.filter((h) => (form[h.key] as string)?.trim()).map((h) => (

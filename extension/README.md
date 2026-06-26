@@ -1,7 +1,7 @@
-# CP Journal Companion (browser extension)
+# SolveLog Companion (browser extension)
 
 Cross-browser extension (built with [WXT](https://wxt.dev)) that captures
-competitive-programming problems into your [cp-journal](../) - one-click capture with rich
+coding problems into your [SolveLog](../) - one-click capture with rich
 metadata (rating, tags, statement, limits), a per-problem timer, and bulk history import.
 
 ## Supported sites
@@ -22,7 +22,7 @@ to Unicode (`≤`, `10³`, ...) by `lib/parsers/mathjax.ts`. Add a judge by writ
 
 Each user links the extension to their own journal with a **per-user bearer token**:
 
-1. Log into the cp-journal web app, open **`/extension/connect`**, click **Connect**.
+1. Log into the SolveLog web app, open **`/extension/connect`**, click **Connect**.
 2. That page mints a token (same-origin, so your Supabase session authenticates it) and hands
    it to the extension via `window.postMessage`. The `connect` content script relays it to the
    background worker, which stores it in `chrome.storage.local` along with the app's origin.
@@ -55,7 +55,7 @@ The same **`.output/chrome-mv3`** build works on all Chromium browsers (Chrome, 
 > **After loading or rebuilding**, reload any already-open judge tab - MV3 only injects the
 > content script into pages opened *after* the extension loads.
 
-Then open the popup -> **Connect** (links to your journal) -> open a supported problem page ->
+Then open the popup -> **Connect** (links to your SolveLog) -> open a supported problem page ->
 **Capture this problem**. It appears in your dashboard live (no refresh).
 
 ## Configure for production

@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
         to: notifyTo,
         subject: `New access request - ${email}`,
         html:
-          `<p>Someone asked to be let into CP Journal.</p>` +
+          `<p>Someone asked to be let into SolveLog.</p>` +
           `<p><strong>Email:</strong> ${safeEmail}</p>` +
           (safeNote ? `<p><strong>Note:</strong> ${safeNote}</p>` : "") +
           `<p>Review &amp; approve at <a href="${appUrl}/admin/invites">${appUrl}/admin/invites</a>.</p>`,

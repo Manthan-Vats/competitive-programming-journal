@@ -78,8 +78,8 @@ export function ShareCard({ username }: { username?: string | null }) {
 
   const cardUrl = `${origin}/api/card/${username}`;
   const verifyUrl = `${origin}/u/${username}`;
-  const markdown = `[![CP Journal - verified](${cardUrl})](${verifyUrl})`;
-  const html = `<a href="${verifyUrl}"><img src="${cardUrl}" width="520" alt="CP Journal - verified competitive programming card" /></a>`;
+  const markdown = `[![SolveLog - verified](${cardUrl})](${verifyUrl})`;
+  const html = `<a href="${verifyUrl}"><img src="${cardUrl}" width="520" alt="SolveLog - verified card" /></a>`;
 
   return (
     <div className="space-y-4">
@@ -99,7 +99,7 @@ export function ShareCard({ username }: { username?: string | null }) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={cardUrl}
-          alt="Your CP Journal verified card"
+          alt="Your SolveLog verified card"
           className="max-w-full h-auto mx-auto block"
           style={{ width: 520 }}
         />
@@ -115,7 +115,7 @@ export function ShareCard({ username }: { username?: string | null }) {
         </GhostButton>
         <a
           href={`${cardUrl}?format=png`}
-          download={`cp-journal-${username}.png`}
+          download={`solvelog-${username}.png`}
           className="inline-flex items-center gap-1.5 text-[12px] font-mono uppercase tracking-[0.08em] text-blueprint hover:text-blood"
         >
           <Download className="w-3.5 h-3.5" /> Download PNG

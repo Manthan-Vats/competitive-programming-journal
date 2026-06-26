@@ -55,7 +55,7 @@ export async function GET(
         headers: {
           "Content-Type": "image/png",
           "Cache-Control": "public, max-age=1800, s-maxage=21600, stale-while-revalidate=86400",
-          "Content-Disposition": `inline; filename="cp-journal-${data.username}${platform ? "-" + platform : ""}.png"`,
+          "Content-Disposition": `inline; filename="solvelog-${data.username}${platform ? "-" + platform : ""}.png"`,
         },
       });
     } catch {

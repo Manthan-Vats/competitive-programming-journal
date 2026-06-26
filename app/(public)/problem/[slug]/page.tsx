@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     .maybeSingle();
   if (!problem || !problem.is_public) return { title: "Problem Not Found" };
   return {
-    title: `${problem.title} - CP Journal`,
+    title: `${problem.title} - SolveLog`,
     description: `Solution code and analysis for ${problem.title} on ${problem.platform}.`,
   };
 }

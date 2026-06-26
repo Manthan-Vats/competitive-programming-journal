@@ -98,7 +98,7 @@ export const PublicHero: React.FC<PublicHeroProps> = ({
         <div className="grid gap-8 md:grid-cols-[1fr_150px] md:items-start">
           <div className="min-w-0">
             <Cap className="!text-[color:var(--hero-faint)]" >
-              ◉ A COMPETITIVE PROGRAMMING JOURNAL
+              ◉ A SOLVELOG PORTFOLIO
             </Cap>
 
             {/* the name AS architecture - oversized, full-bleed, kinetic on scroll */}
@@ -145,7 +145,7 @@ export const PublicHero: React.FC<PublicHeroProps> = ({
               )}
               <Link href="/admin">
                 <GhostButton className="!bg-transparent hover:!bg-white/[0.06] !text-[color:var(--hero-name)] !border-[color:var(--hero-sub)]">
-                  ▸ enter the journal
+                  ▸ open solvelog
                 </GhostButton>
               </Link>
             </div>

@@ -132,7 +132,7 @@ export function buildCombinedCardSvg(d: CardData): string {
     })
     .join("");
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(d.displayName)} - CP Journal verified card">
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(d.displayName)} - SolveLog verified card">
   <defs>
     <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="${C.sheet}"/>
@@ -143,7 +143,7 @@ export function buildCombinedCardSvg(d: CardData): string {
   <rect x="7" y="7" width="${W - 14}" height="${H - 14}" rx="4" fill="none" stroke="${C.edge}" stroke-width="1" opacity="0.7"/>
   <!-- header -->
   <rect x="${PAD}" y="${headY - 11}" width="11" height="11" fill="${C.blood}" rx="2"/>
-  <text x="${PAD + 19}" y="${headY}" font-family="${MONO}" font-size="12.5" letter-spacing="3" fill="${C.inkFaint}">CP JOURNAL · CASE FILE</text>
+  <text x="${PAD + 19}" y="${headY}" font-family="${MONO}" font-size="12.5" letter-spacing="3" fill="${C.inkFaint}">SOLVELOG · CASE FILE</text>
   ${verified ? stampSvg(W - PAD - 110, headY - 16) : ""}
   <!-- identity -->
   <text x="${PAD}" y="${nameY}" font-family="${SERIF}" font-size="34" font-weight="700" fill="${C.ink}">${esc(d.displayName)}</text>

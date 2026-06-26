@@ -182,7 +182,7 @@ export function VerifyHandles({
     const params = new URLSearchParams({
       startTask: "CERTIFICATION_NAME",
       name: `Verified ${label(p)} - ${headline(p, v.stats)}`,
-      organizationName: "CP Journal",
+      organizationName: "SolveLog",
       certUrl: `${origin}/u/${username}`,
       certId: `${username}-${p}`,
       issueYear: String(now.getFullYear()),

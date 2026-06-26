@@ -47,9 +47,9 @@ const permanentMarker = Permanent_Marker({
 });
 
 export const metadata: Metadata = {
-  title: "CP Journal - everything in its right place",
+  title: "SolveLog - remember every problem you solve",
   description:
-    "A competitive-programming journal & public portfolio - every problem filed by hand, in a Radiohead Public Library.",
+    "Capture every problem you solve, understand the pattern, and remember it for good - a practice journal in a Radiohead Public Library.",
   other: {
     // a small hello for anyone who reads the <head>
     "x-message-to-the-curious": "2 + 2 = 5",

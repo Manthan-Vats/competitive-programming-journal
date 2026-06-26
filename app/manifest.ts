@@ -3,9 +3,9 @@ import type { MetadataRoute } from "next";
 // PWA / install manifest. Colors match the desk theme.
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "CP Journal",
-    short_name: "CP Journal",
-    description: "A competitive-programming journal & public portfolio - every problem filed by hand.",
+    name: "SolveLog",
+    short_name: "SolveLog",
+    description: "Capture every problem you solve and remember it - your practice, filed by hand.",
     start_url: "/",
     display: "standalone",
     background_color: "#1c1812",

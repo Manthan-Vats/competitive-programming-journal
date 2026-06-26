@@ -40,7 +40,7 @@ export const PublicPortfolio: React.FC<PublicPortfolioProps> = ({ problems, prof
   const [activePlatform, setActivePlatform] = useState<string>("all");
   const [activeDifficulty, setActiveDifficulty] = useState<string>("all");
 
-  const displayName = profile?.display_name || "Competitive Programmer";
+  const displayName = profile?.display_name || "A SolveLog member";
   const bio =
     profile?.bio ||
     "A record of every problem solved - with the accepted code, the time it took, and what the solution actually does. Read-only. Filed by hand.";
@@ -271,7 +271,7 @@ export const PublicPortfolio: React.FC<PublicPortfolioProps> = ({ problems, prof
             {" · "}
             <a href="/terms" className="hover:text-blood transition-colors">terms</a>
             {" · "}
-            CP JOURNAL · 2026
+            SOLVELOG · 2026
           </span>
         </footer>
       </PaperSheet>

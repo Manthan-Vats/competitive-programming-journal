@@ -37,7 +37,7 @@ async function render() {
   if (status?.connected) {
     const who = status.username
       ? `@${status.username}`
-      : status.displayName || "your journal";
+      : status.displayName || "your SolveLog";
     statusEl.innerHTML = `<span class="dot on"></span>connected · ${escapeHtml(who)}`;
 
     // The gloaming - live, stateful timer panel (storage-backed; survives popup close).
@@ -74,7 +74,7 @@ async function render() {
         window.close();
       })
     );
-    setHint(`Log into ${base} and click Connect to link this extension to your journal.`);
+    setHint(`Log into ${base} and click Connect to link this extension to your SolveLog.`);
   }
 }
 
@@ -109,8 +109,8 @@ async function captureActive() {
   if (result?.success) {
     setHint(
       result.was_duplicate
-        ? "Already in your journal."
-        : "Captured. It's in your journal."
+        ? "Already in your SolveLog."
+        : "Captured. It's in your SolveLog."
     );
   } else {
     setHint(result?.error || "Capture failed.");

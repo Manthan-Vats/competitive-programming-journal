@@ -6,8 +6,8 @@ import { Cap } from "@/components/paper/bits";
 import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
-  title: "Terms of Use - CP Journal",
-  description: "The terms under which you may use CP Journal.",
+  title: "Terms of Use - SolveLog",
+  description: "The terms under which you may use SolveLog.",
 };
 
 const CONTACT = "manthan.ralph17@gmail.com";
@@ -36,7 +36,7 @@ export default function TermsPage() {
 
           <Block cap="THE GIST">
             <P>
-              CP Journal is a personal tool for keeping a competitive-programming journal and public
+              SolveLog is a personal tool for keeping a journal of the problems you solve and a public
               portfolio, offered to invited users free of charge. By using it you agree to these
               terms. If you do not agree, please do not use the service.
             </P>
@@ -45,7 +45,7 @@ export default function TermsPage() {
           <Block cap="YOUR ACCOUNT">
             <P>
               Access is by invitation. Keep your login secure; you are responsible for activity under
-              your account. Use the service for your own competitive-programming record-keeping.
+              your account. Use the service for your own practice record-keeping.
             </P>
           </Block>
 
@@ -60,7 +60,7 @@ export default function TermsPage() {
 
           <Block cap="ACCEPTABLE USE">
             <P>
-              Do not use CP Journal to store or publish content you do not have the right to, to
+              Do not use SolveLog to store or publish content you do not have the right to, to
               attempt to access other users&apos; data, to abuse or overload the service, or to break
               the law. When capturing problems from online judges, respect those judges&apos; own terms
               of service - capture only your own submissions and content you are permitted to save.

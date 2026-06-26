@@ -8,9 +8,9 @@ import { defineConfig } from "wxt";
 // host_permissions list and entrypoints/connect.content.ts `matches`.
 export default defineConfig({
   manifest: {
-    name: "CP Journal Companion",
+    name: "SolveLog Companion",
     description:
-      "One-click capture of competitive-programming problems into your CP Journal.",
+      "One-click capture of coding problems into your SolveLog.",
     // unlimitedStorage: the CF rating/tags enrichment caches the full problemset map
     // (~1-2 MB) in storage.local, which can exceed the default ~10 MB quota over time.
     // The LeetCode csrftoken is read from `document.cookie` inside the same-origin content script

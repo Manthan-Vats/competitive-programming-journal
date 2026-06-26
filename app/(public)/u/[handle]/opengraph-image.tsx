@@ -6,7 +6,7 @@ import { type CardData } from "@/lib/badge-card";
 // Reads only public, verified data (loadCardData uses the service-role client; no cookies needed).
 
 export const runtime = "nodejs";
-export const alt = "CP Journal - verified competitive programming portfolio";
+export const alt = "SolveLog - a verified practice portfolio";
 export const size = OG_SIZE;
 export const contentType = "image/png";
 
@@ -15,7 +15,7 @@ const ORIGIN = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") || "http://lo
 export default async function OgImage({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params;
   const fallback: CardData = {
-    displayName: "Competitive Programmer",
+    displayName: "A SolveLog member",
     username: handle,
     origin: ORIGIN,
     verifs: [],
