@@ -21,5 +21,17 @@ export default async function AdminLayout({
     redirect("/login");
   }
 
-  return <AdminShell isOperator={isOperator(user)}>{children}</AdminShell>;
+  // The shell's "view public" link needs the user's public handle (their portfolio lives at
+  // /u/<handle> now that "/" is the marketing landing). Null when they haven't set one yet.
+  const { data: profile } = await supabase
+    .from("profile")
+    .select("username")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  return (
+    <AdminShell isOperator={isOperator(user)} publicHandle={(profile?.username as string) || null}>
+      {children}
+    </AdminShell>
+  );
 }

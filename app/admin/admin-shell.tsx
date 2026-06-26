@@ -35,9 +35,11 @@ interface NavItem {
 export function AdminShell({
   children,
   isOperator = false,
+  publicHandle = null,
 }: {
   children: React.ReactNode;
   isOperator?: boolean;
+  publicHandle?: string | null;
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -133,8 +135,8 @@ export function AdminShell({
       <div className="sticky bottom-0 bg-board pb-1">
         <div className="h-px bg-white/[0.08] mx-4 mb-1.5" />
         <a
-          href="/"
-          target="_blank"
+          href={publicHandle ? `/u/${publicHandle}` : "/admin/settings"}
+          target={publicHandle ? "_blank" : undefined}
           rel="noreferrer"
           data-tour="view-public"
           className="flex items-center gap-2 px-4 py-[7px] font-mono text-[12px] text-[#cdc3a3] hover:text-acid transition-colors"
