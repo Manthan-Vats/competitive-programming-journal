@@ -4,7 +4,7 @@ import React from "react";
 
 /**
  * The Modified Bear - Radiohead's totem since Kid A / Amnesiac (Stanley Donwood).
- * A blank, sharp-toothed white bear. Used here as the CP Journal mark.
+ * A blank, sharp-toothed white bear. Used here as the SolveLog mark.
  * Pure SVG so it scales crisply and can be tinted via `currentColor`.
  */
 export const ModifiedBear: React.FC<
