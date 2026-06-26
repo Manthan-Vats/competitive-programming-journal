@@ -12,22 +12,22 @@ import "driver.js/dist/driver.css";
 // Targets are stable selectors that live in the always-present admin shell (nav links + the add
 // button), so the tour never depends on page-specific markup.
 
-const SEEN_KEY = "cpj_tour_v1";
+const SEEN_KEY = "cpj_tour_v2";
 
 const STEPS: DriveStep[] = [
   {
     popover: {
-      title: "Welcome to your journal",
+      title: "Welcome to SolveLog",
       description:
-        "A 30-second tour of how this works. Skip anytime, and replay it later from the help button up top.",
+        "Sixty seconds and you'll know your way around. The idea is simple: log every problem you solve, and SolveLog makes sure you actually remember it. Skip anytime - replay later from the ? button up top.",
     },
   },
   {
     element: 'a[href="/admin/problems/new"]',
     popover: {
-      title: "File a problem",
+      title: "1. File a problem",
       description:
-        "Add one by hand, or just paste a Codeforces / LeetCode / AtCoder link and it auto-fills the title, rating and tags.",
+        "Start here. Add a problem by hand, or just paste a Codeforces / LeetCode / AtCoder link and it auto-fills the title, rating and tags. Drop in your code, and a solve timer starts so you know how long it really took.",
       side: "bottom",
       align: "end",
     },
@@ -35,35 +35,52 @@ const STEPS: DriveStep[] = [
   {
     element: 'a[href="/admin/problems"]',
     popover: {
-      title: "Your drawer",
-      description: "Everything you file lands here - searchable, filterable, all in one place.",
+      title: "2. Your drawer",
+      description:
+        "Every problem you file lands here - search it, filter by platform / difficulty / tag, and open any one to read your notes, your code, and the AI breakdown.",
       side: "right",
     },
   },
   {
     element: 'a[href="/admin/revision"]',
     popover: {
-      title: "Don't just solve - remember",
+      title: "3. The part that makes it stick",
       description:
-        "Spaced-repetition revision resurfaces problems on a schedule so they actually stick.",
+        "This is the whole point. SolveLog brings each problem back right before you'd forget it (spaced repetition). You grade yourself - again / hard / good / easy - and it schedules the next review. Do this and the patterns stay with you.",
+      side: "right",
+    },
+  },
+  {
+    element: 'a[href="/admin/analytics"]',
+    popover: {
+      title: "4. See where you stand",
+      description:
+        "Your patterns, your difficulty mix, a solve heatmap, and time per problem - so you can see what you're strong at and what you keep avoiding.",
       side: "right",
     },
   },
   {
     element: 'a[href="/admin/settings"]',
     popover: {
-      title: "Set yourself up",
+      title: "5. Set yourself up (important)",
       description:
-        "In Settings: add your own free Gemini key for AI analysis, verify your judge handles, grab the browser companion, and build your share card.",
+        "Everything setup lives in Settings: pick your public handle (1), one-click sync your whole Codeforces / LeetCode history (4), paste a free Gemini key so AI breaks down every solution (5), and verify your handles for a shareable badge (2 + 3).",
       side: "right",
+    },
+  },
+  {
+    popover: {
+      title: "6. Capture in one click",
+      description:
+        "Don't want to type? Install the SolveLog Companion (the download is in Settings). Solve on a judge, click the bear, and the problem is filed for you - with the timer. It can also bulk-import everything you've already solved.",
     },
   },
   {
     element: '[data-tour="view-public"]',
     popover: {
-      title: "Your public portfolio",
+      title: "7. Show it off",
       description:
-        "This opens the page the world sees. Mark any problem public and it shows up here.",
+        "This opens your public portfolio. Mark any problem public and it shows up here - a clean link with verified stats you can put on your resume or LinkedIn.",
       side: "right",
     },
   },
@@ -71,7 +88,7 @@ const STEPS: DriveStep[] = [
     popover: {
       title: "That's the tour",
       description:
-        "Replay it anytime with the help button. Now go file your first problem - the best you can is good enough.",
+        "Go file your first problem and let SolveLog remember the rest. You can replay this anytime with the ? button. Everything in its right place.",
     },
   },
 ];
