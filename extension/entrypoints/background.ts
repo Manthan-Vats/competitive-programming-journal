@@ -37,6 +37,7 @@ import { syncJudge, whoamiJudge } from "../lib/sync";
 // so a tampered message can't redirect the token to an attacker.
 const TRUSTED_APP_ORIGINS = new Set<string>([
   "http://localhost:3000",
+  "https://solvelog.vercel.app",
   "https://competitive-programming-journal.vercel.app",
 ]);
 

@@ -15,7 +15,7 @@ import type {
 // Must be a trusted origin in background.ts TRUSTED_APP_ORIGINS + wxt.config host_permissions +
 // connect.content.ts matches. For local dev against localhost, connect once from
 // http://localhost:3000/extension/connect (its origin is then remembered as apiBase).
-const DEFAULT_APP_BASE = "https://competitive-programming-journal.vercel.app";
+const DEFAULT_APP_BASE = "https://solvelog.vercel.app";
 
 const statusEl = document.getElementById("status")!;
 const actionsEl = document.getElementById("actions")!;

@@ -10,6 +10,7 @@ import { browser } from "wxt/browser";
 export default defineContentScript({
   matches: [
     "http://localhost:3000/admin/*",
+    "https://solvelog.vercel.app/admin/*",
     "https://competitive-programming-journal.vercel.app/admin/*",
   ],
   main() {

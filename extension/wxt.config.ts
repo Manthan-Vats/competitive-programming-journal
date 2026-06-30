@@ -20,6 +20,7 @@ export default defineConfig({
       // cp-journal web app. Keep dev + prod in sync with background.ts TRUSTED_APP_ORIGINS
       // and connect.content.ts `matches`.
       "http://localhost:3000/*",
+      "https://solvelog.vercel.app/*",
       "https://competitive-programming-journal.vercel.app/*",
       // Judges we capture from (v1).
       "https://codeforces.com/*",
