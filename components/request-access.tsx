@@ -7,7 +7,16 @@ import { Cap } from "@/components/paper/bits";
 import { toast } from "sonner";
 
 // Invite-only: visitors can't sign up, they ask. POSTs to /api/access-requests.
-export function RequestAccess() {
+// `trigger` picks how the collapsed call-to-action looks:
+//   - "link"   : quiet inline mono link (used in tight spots / footers)
+//   - "button" : the primary blood StampButton (used for the hero CTA)
+export function RequestAccess({
+  trigger = "link",
+  label = "request an invite",
+}: {
+  trigger?: "link" | "button";
+  label?: string;
+} = {}) {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
@@ -50,12 +59,19 @@ export function RequestAccess() {
   }
 
   if (!open) {
+    if (trigger === "button") {
+      return (
+        <StampButton onClick={() => setOpen(true)} className="px-5 py-3 text-[15px]">
+          <KeyRound className="w-[15px] h-[15px]" /> {label} <span aria-hidden>&rarr;</span>
+        </StampButton>
+      );
+    }
     return (
       <button
         onClick={() => setOpen(true)}
         className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-soft hover:text-blood transition-colors"
       >
-        <KeyRound className="w-[13px] h-[13px]" /> request access
+        <KeyRound className="w-[13px] h-[13px]" /> {label}
       </button>
     );
   }

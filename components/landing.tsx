@@ -1,15 +1,16 @@
 import React from "react";
 import Link from "next/link";
 import { PaperSheet } from "@/components/paper/paper-sheet";
-import { Cap } from "@/components/paper/bits";
 import { Stamp } from "@/components/paper/stamp";
 import { RequestAccess } from "@/components/request-access";
 import { SiteFooter } from "@/components/site-footer";
 import { ModifiedBear } from "@/components/modified-bear";
 
-// Public marketing landing shown to logged-out visitors at "/". Built entirely from the paper kit
-// so it matches the rest of the app. Server component; the only interactive bits are the nested
-// RequestAccess + SiteFooter (client). Motion is the global data-reveal system (MotionProvider).
+// Public marketing landing shown to logged-out visitors at "/". One tall paper "dossier" sheet
+// resting on the dark desk, so every word is high-contrast ink-on-paper and the type hierarchy
+// is unmistakable: mono labels < serif body < Special-Elite sub-heads < Anton headlines, with the
+// blood StampButton as the one obvious primary action. Server component; the interactive bits
+// (RequestAccess, SiteFooter) are nested client components. Motion = the global data-reveal system.
 
 const STEPS = [
   {
@@ -25,12 +26,12 @@ const STEPS = [
   {
     n: "03",
     title: "Remember it",
-    body: "Spaced repetition brings each problem back right before you'd forget it. This is the part that makes it stick, instead of just pile up.",
+    body: "Spaced repetition brings each problem back right before you'd forget it. This is the part that makes it stick, instead of just piling up.",
   },
   {
     n: "04",
     title: "Show it off",
-    body: "Every solve turns into a clean public portfolio with a verified badge. Put the link on your resume and let recruiters see the work.",
+    body: "Every solve turns into a clean public portfolio with a verified badge. Put the link on your resume and let recruiters see the real work.",
   },
 ];
 
@@ -49,95 +50,122 @@ const WHY = [
   },
 ];
 
+/** A consistent section label: mono caps, blood, with a short rule - the one caption style. */
+function SectionLabel({ n, children }: { n: string; children: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-2.5">
+      <span className="font-mono text-[12px] font-bold text-blood">{n}</span>
+      <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-faint">
+        {children}
+      </span>
+      <span className="h-px flex-1 bg-paper-edge" />
+    </div>
+  );
+}
+
 export function Landing() {
   return (
     <div className="cpj-desk min-h-screen w-full overflow-x-hidden relative">
-      {/* warm pool of light down the title wall (matches the public portfolio hero) */}
+      {/* warm pool of light over the dossier */}
       <div
         aria-hidden
-        className="pointer-events-none inset-x-0 top-0 h-[95vh]"
+        className="pointer-events-none inset-x-0 top-0 h-[70vh]"
         style={{
           position: "absolute",
           zIndex: 0,
           background:
-            "radial-gradient(80% 55% at 50% 0%, rgba(231,181,58,0.10), rgba(231,181,58,0.03) 46%, transparent 78%)",
+            "radial-gradient(70% 50% at 50% 0%, rgba(231,181,58,0.09), rgba(231,181,58,0.025) 50%, transparent 80%)",
         }}
       />
 
-      {/* HERO */}
-      <header className="relative z-[1] w-full max-w-5xl mx-auto px-5 pt-16 pb-10 text-center">
-        <div className="flex items-center justify-center gap-2 mb-5">
-          <ModifiedBear className="w-5 h-5 text-blood" />
-          <Cap>invite-only · for people who actually grind</Cap>
-        </div>
-        <h1
-          className="font-display uppercase leading-[0.84]"
-          style={{ fontSize: "clamp(2.6rem, 11vw, 7.5rem)" }}
-        >
-          SolveLog
-        </h1>
-        <p className="font-display text-[clamp(1.5rem,4.6vw,2.7rem)] leading-[1.02] mt-4">
-          Remember every problem you solve.
-        </p>
-        <p className="font-body text-[clamp(1rem,2.4vw,1.18rem)] text-ink-soft max-w-[560px] mx-auto mt-4 leading-[1.5]">
-          You grind 300 problems for placements, then blank on half of them in the interview.
-          SolveLog makes them stick.
-        </p>
-        <div className="flex flex-col items-center gap-3 mt-7">
-          <RequestAccess />
-          <Link
-            href="/login"
-            className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faint hover:text-blood transition-colors"
-          >
-            already in? log in
-          </Link>
-        </div>
-      </header>
+      <main className="relative z-[1] w-full max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+        <PaperSheet variant="page" className="cpj-develop px-6 py-9 sm:px-12 sm:py-12">
+          {/* ===== MASTHEAD ===== */}
+          <header>
+            {/* kicker row: brand mark + filing tab */}
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <ModifiedBear className="w-[22px] h-[22px] text-blood" />
+                <span className="font-type text-[18px] tracking-[0.04em] text-ink">SolveLog</span>
+              </div>
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faint">
+                case file · invite-only
+              </span>
+            </div>
+            <div className="mt-3 border-t-2 border-ink/80" />
+            <div className="mt-1 border-t border-paper-edge" />
 
-      {/* THE CASE FILE */}
-      <main className="relative z-[1] w-full max-w-3xl mx-auto px-4 pb-10 space-y-6">
-        <PaperSheet variant="page" className="cpj-develop p-[24px] md:p-[34px]">
-          {/* 01 - the problem */}
-          <section data-reveal>
-            <Cap>01 · the problem</Cap>
-            <p className="font-display text-[clamp(1.6rem,4vw,2.3rem)] leading-[1.05] mt-2">
-              You&apos;ve solved 300 problems. Could you re-solve 30 of them right now?
+            {/* the promise - the loud, high-contrast headline */}
+            <p className="mt-7 font-mono text-[11px] uppercase tracking-[0.22em] text-blood">
+              a practice journal for people who grind
             </p>
-            <p className="font-body text-[16px] leading-[1.62] text-ink mt-3">
+            <h1 className="mt-3 font-display uppercase text-ink leading-[0.9] text-[clamp(2.5rem,9vw,4.6rem)]">
+              Remember every
+              <br />
+              problem you solve.
+            </h1>
+            <p className="mt-5 font-body text-[clamp(1.05rem,2.4vw,1.25rem)] leading-[1.6] text-ink-soft max-w-[34rem]">
+              You grind 300 problems for placements, then blank on half of them in the
+              interview. SolveLog files each one, explains it, and brings it back before you
+              forget - so the practice actually adds up.
+            </p>
+
+            {/* the one primary action, clearly a button + a quiet secondary */}
+            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+              <RequestAccess trigger="button" label="request an invite" />
+              <Link
+                href="/login"
+                className="font-type text-[14px] text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-blood hover:text-blood transition-colors"
+              >
+                already have an invite? log in
+              </Link>
+            </div>
+          </header>
+
+          {/* ===== 01 THE PROBLEM ===== */}
+          <section data-reveal className="mt-14">
+            <SectionLabel n="01">the problem</SectionLabel>
+            <h2 className="mt-4 font-display uppercase text-ink leading-[1.02] text-[clamp(1.5rem,4vw,2.15rem)]">
+              You&apos;ve solved 300 problems.
+              <br className="hidden sm:block" /> Could you re-solve 30 right now?
+            </h2>
+            <p className="mt-4 font-body text-[16.5px] leading-[1.65] text-ink">
               Most of us grind LeetCode and Codeforces, feel productive, then forget it all in a
-              week. Learn something once and you keep less than 5% of it two months later. So
-              interview season shows up and you&apos;re starting from zero. Again.
+              week. You keep less than 5% of what you learn two months later. So interview season
+              shows up and you&apos;re starting from zero. Again.
             </p>
           </section>
 
-          {/* 02 - how it works */}
-          <section data-reveal className="mt-9 pt-7 border-t border-paper-edge">
-            <Cap>02 · how it works</Cap>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-4" data-reveal-stagger>
+          {/* ===== 02 HOW IT WORKS ===== */}
+          <section data-reveal className="mt-12">
+            <SectionLabel n="02">how it works</SectionLabel>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5" data-reveal-stagger>
               {STEPS.map((s) => (
                 <div
                   key={s.n}
-                  className="bg-paper border border-paper-edge rounded-[3px] cpj-card-shadow p-4"
+                  className="bg-paper-sheet border border-paper-edge rounded-[3px] cpj-card-shadow p-5"
                 >
-                  <div className="flex items-baseline gap-2">
-                    <span className="font-display text-[26px] text-blood leading-none">{s.n}</span>
-                    <h3 className="font-type text-[17px]">{s.title}</h3>
+                  <div className="flex items-baseline gap-2.5">
+                    <span className="font-display text-[30px] text-blood leading-none">{s.n}</span>
+                    <h3 className="font-type text-[18px] text-ink">{s.title}</h3>
                   </div>
-                  <p className="font-body text-[14px] leading-[1.55] text-ink-soft mt-1.5">{s.body}</p>
+                  <p className="font-body text-[15px] leading-[1.6] text-ink-soft mt-2">{s.body}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* 03 - why it's different */}
-          <section data-reveal className="mt-9 pt-7 border-t border-paper-edge">
-            <Cap>03 · why it&apos;s not just another tracker</Cap>
-            <ul className="mt-3 space-y-3">
+          {/* ===== 03 WHY IT'S DIFFERENT ===== */}
+          <section data-reveal className="mt-12">
+            <SectionLabel n="03">why it&apos;s not just another tracker</SectionLabel>
+            <ul className="mt-5 space-y-4">
               {WHY.map((w) => (
-                <li key={w.head} className="flex gap-3">
-                  <span className="font-display text-blood text-[18px] leading-[1.2] select-none">✓</span>
-                  <p className="font-body text-[15px] leading-[1.55] text-ink">
-                    <span className="font-type text-ink">{w.head}</span>{" "}
+                <li key={w.head} className="flex gap-3.5">
+                  <span className="font-display text-blood text-[19px] leading-[1.3] select-none">
+                    &#10003;
+                  </span>
+                  <p className="font-body text-[16px] leading-[1.6]">
+                    <span className="font-type text-[15px] text-ink">{w.head}</span>{" "}
                     <span className="text-ink-soft">{w.body}</span>
                   </p>
                 </li>
@@ -145,35 +173,38 @@ export function Landing() {
             </ul>
           </section>
 
-          {/* 04 - who it's for */}
-          <section data-reveal className="mt-9 pt-7 border-t border-paper-edge">
-            <Cap>04 · who it&apos;s for</Cap>
-            <p className="font-body text-[16px] leading-[1.62] text-ink mt-2">
+          {/* ===== 04 WHO IT'S FOR ===== */}
+          <section data-reveal className="mt-12">
+            <SectionLabel n="04">who it&apos;s for</SectionLabel>
+            <p className="mt-4 font-body text-[16.5px] leading-[1.65] text-ink">
               Built for the placement grind - DSA prep, interview season, or just being tired of
-              solving the same problem for the third time. If you practice and want it to add up to
-              something, SolveLog is for you.
+              solving the same problem for the third time. If you practice and want it to add up
+              to something, SolveLog is for you.
             </p>
           </section>
 
-          {/* 05 - come in (CTA) */}
-          <section data-reveal className="mt-9 pt-7 border-t border-paper-edge text-center">
-            <div className="flex justify-center mb-3">
-              <Stamp label="INVITE ONLY" sub="SOLVELOG" tone="blood" rotate={-4} />
-            </div>
-            <p className="font-body text-[16px] text-ink mt-2 max-w-[480px] mx-auto">
+          {/* ===== CTA ===== */}
+          <section
+            data-reveal
+            className="mt-14 pt-9 border-t border-paper-edge flex flex-col items-center text-center"
+          >
+            <Stamp label="INVITE ONLY" sub="SOLVELOG" tone="blood" rotate={-4} />
+            <h2 className="mt-5 font-display uppercase text-ink leading-[1.0] text-[clamp(1.5rem,4.5vw,2.3rem)]">
+              Pull up a chair.
+            </h2>
+            <p className="mt-3 font-body text-[16.5px] leading-[1.6] text-ink-soft max-w-[30rem]">
               SolveLog is invite-only while it&apos;s young. Leave your email and you&apos;ll hear
               back when the door opens.
             </p>
-            <div className="flex justify-center mt-4">
-              <RequestAccess />
+            <div className="mt-6">
+              <RequestAccess trigger="button" label="request an invite" />
             </div>
-            <p className="font-body italic text-[13px] text-ink-soft mt-5">
-              everything in its right place.
-            </p>
           </section>
-        </PaperSheet>
 
-        <SiteFooter />
+          <div className="mt-2">
+            <SiteFooter />
+          </div>
+        </PaperSheet>
       </main>
     </div>
   );
