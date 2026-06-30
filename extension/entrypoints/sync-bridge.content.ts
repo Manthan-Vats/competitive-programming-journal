@@ -10,7 +10,7 @@ import { browser } from "wxt/browser";
 export default defineContentScript({
   matches: [
     "http://localhost:3000/admin/*",
-    // "https://cp.example.com/admin/*",
+    "https://competitive-programming-journal.vercel.app/admin/*",
   ],
   main() {
     // Proactively announce presence so the web app doesn't depend on its single ping
